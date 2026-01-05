@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreste Construção - Debug Login</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .debug-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .debug-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .debug-header h1 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .debug-header p {
+            color: var(--text-secondary);
+        }
+
+        .debug-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .debug-section h3 {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .debug-section h3 i {
+            color: var(--accent-blue);
+        }
+
+        .debug-info {
+            display: grid;
+            gap: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .info-value {
+            color: var(--text-secondary);
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .debug-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #357ABD;
+        }
+
+        .btn-danger {
+            background-color: var(--accent-red);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #B71C1C;
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .login-form {
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <div class="debug-header">
+            <h1><i class="fas fa-bug"></i> Debug Login</h1>
+            <p>Ferramentas de diagnóstico e depuração do sistema de login</p>
+        </div>
+
+        <div class="debug-section">
+            <h3><i class="fas fa-info-circle"></i> Informações do Sistema</h3>
+            <div class="debug-info" id="systemInfo">
+                <!-- Informações serão carregadas aqui -->
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h3><i class="fas fa-users"></i> Usuários Registrados</h3>
+            <div class="debug-info" id="usersInfo">
+                <!-- Usuários serão listados aqui -->
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h3><i class="fas fa-key"></i> Sessão Atual</h3>
+            <div class="debug-info" id="sessionInfo">
+                <!-- Informações da sessão serão mostradas aqui -->
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h3><i class="fas fa-tools"></i> Ações de Debug</h3>
+            <div class="debug-actions">
+                <button class="btn btn-primary" onclick="loadDebugInfo()">
+                    <i class="fas fa-sync"></i>
+                    Atualizar Informações
+                </button>
+                <button class="btn btn-secondary" onclick="clearSession()">
+                    <i class="fas fa-trash"></i>
+                    Limpar Sessão
+                </button>
+                <button class="btn btn-secondary" onclick="clearLocalStorage()">
+                    <i class="fas fa-eraser"></i>
+                    Limpar LocalStorage
+                </button>
+                <button class="btn btn-danger" onclick="resetSystem()">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Reset Sistema
+                </button>
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h3><i class="fas fa-user-plus"></i> Login Manual</h3>
+            <div class="login-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="debugEmail">Email</label>
+                        <input type="email" id="debugEmail" placeholder="usuario@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="debugRole">Cargo</label>
+                        <select id="debugRole">
+                            <option value="gestor">Gestor</option>
+                            <option value="atendente">Atendente</option>
+                            <option value="motorista">Motorista</option>
+                            <option value="funcionario">Funcionário</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="debugLogin()">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Fazer Login Debug
+                </button>
+            </div>
+        </div>
+
+        <div class="debug-actions" style="justify-content: center; margin-top: 30px;">
+            <a href="login.html" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i>
+                Voltar ao Login
+            </a>
+            <a href="dashboard/dashboard.html" class="btn btn-primary">
+                <i class="fas fa-tachometer-alt"></i>
+                Ir ao Dashboard
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Sistema de Debug Login
+        class DebugManager {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.loadDebugInfo();
+            }
+
+            loadDebugInfo() {
+                this.loadSystemInfo();
+                this.loadUsersInfo();
+                this.loadSessionInfo();
+            }
+
+            loadSystemInfo() {
+                const container = document.getElementById('systemInfo');
+                const info = [
+                    { label: 'User Agent', value: navigator.userAgent },
+                    { label: 'LocalStorage Disponível', value: this.checkLocalStorage() ? 'Sim' : 'Não' },
+                    { label: 'SessionStorage Disponível', value: this.checkSessionStorage() ? 'Sim' : 'Não' },
+                    { label: 'Tema Atual', value: 'light' },
+                    { label: 'Timestamp', value: new Date().toISOString() }
+                ];
+
+                container.innerHTML = info.map(item => `
+                    <div class="info-item">
+                        <span class="info-label">${item.label}:</span>
+                        <span class="info-value">${item.value}</span>
+                    </div>
+                `).join('');
+            }
+
+            loadUsersInfo() {
+                const container = document.getElementById('usersInfo');
+                const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+                if (users.length === 0) {
+                    container.innerHTML = `
+                        <div class="info-item">
+                            <span class="info-label">Nenhum usuário encontrado</span>
+                            <span class="info-value">LocalStorage vazio</span>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = users.map((user, index) => `
+                    <div class="info-item">
+                        <span class="info-label">${user.name} (${user.email})</span>
+                        <span class="info-value">${user.role} - ${user.status}</span>
+                    </div>
+                `).join('');
+            }
+
+            loadSessionInfo() {
+                const container = document.getElementById('sessionInfo');
+                const currentUser = sessionStorage.getItem('currentUser');
+
+                if (!currentUser) {
+                    container.innerHTML = `
+                        <div class="info-item">
+                            <span class="info-label">Nenhuma sessão ativa</span>
+                            <span class="info-value">Usuário não logado</span>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const user = JSON.parse(currentUser);
+                const info = [
+                    { label: 'Nome', value: user.name },
+                    { label: 'Email', value: user.email },
+                    { label: 'Cargo', value: user.role },
+                    { label: 'Status', value: user.status },
+                    { label: 'ID', value: user.id }
+                ];
+
+                container.innerHTML = info.map(item => `
+                    <div class="info-item">
+                        <span class="info-label">${item.label}:</span>
+                        <span class="info-value">${item.value}</span>
+                    </div>
+                `).join('');
+            }
+
+            checkLocalStorage() {
+                try {
+                    const test = '__localStorage_test__';
+                    localStorage.setItem(test, test);
+                    localStorage.removeItem(test);
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            checkSessionStorage() {
+                try {
+                    const test = '__sessionStorage_test__';
+                    sessionStorage.setItem(test, test);
+                    sessionStorage.removeItem(test);
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+        }
+
+        // Funções globais
+        function loadDebugInfo() {
+            debugManager.loadDebugInfo();
+        }
+
+        function clearSession() {
+            if (confirm('Tem certeza que deseja limpar a sessão atual?')) {
+                sessionStorage.clear();
+                alert('Sessão limpa com sucesso!');
+                loadDebugInfo();
+            }
+        }
+
+        function clearLocalStorage() {
+            if (confirm('Tem certeza que deseja limpar todo o LocalStorage? Isso irá remover todos os dados salvos.')) {
+                localStorage.clear();
+                alert('LocalStorage limpo com sucesso!');
+                loadDebugInfo();
+            }
+        }
+
+        function resetSystem() {
+            if (confirm('ATENÇÃO: Isso irá resetar todo o sistema, removendo todos os dados. Deseja continuar?')) {
+                localStorage.clear();
+                sessionStorage.clear();
+
+                // Criar usuário admin padrão
+                const defaultUsers = [
+                    {
+                        id: 1,
+                        name: 'Desenvolvedor',
+                        email: 'desenvolvedor@control.com',
+                        password: 'admin123',
+                        role: 'gestor', // Gestor tem acesso total a todos os sistemas
+                        systemType: 'dashboard',
+                        status: 'active',
+                        phone: '(11) 99999-9999',
+                        company: 'Agreste Construção',
+                        photo: 'https://via.placeholder.com/100',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+
+                localStorage.setItem('users', JSON.stringify(defaultUsers));
+                alert('Sistema resetado com sucesso! Usuário admin criado.');
+                loadDebugInfo();
+            }
+        }
+
+        function debugLogin() {
+            const email = document.getElementById('debugEmail').value;
+            const role = document.getElementById('debugRole').value;
+
+            if (!email) {
+                alert('Por favor, digite um email.');
+                return;
+            }
+
+            // Criar usuário de debug
+            const debugUser = {
+                id: Date.now(),
+                name: 'Debug User',
+                email: email,
+                role: role,
+                status: 'active',
+                phone: '(11) 99999-9999',
+                company: 'Debug Company',
+                photo: 'https://via.placeholder.com/100'
+            };
+
+            // Salvar na sessão
+            sessionStorage.setItem('currentUser', JSON.stringify(debugUser));
+
+            alert(`Login debug realizado como ${role}!`);
+            loadDebugInfo();
+
+            // Redirecionar para dashboard
+            setTimeout(() => {
+                window.location.href = 'dashboard/dashboard.html';
+            }, 1000);
+        }
+
+        // Inicializar
+        let debugManager;
+        document.addEventListener('DOMContentLoaded', () => {
+            debugManager = new DebugManager();
+        });
+    </script>
+</body>
+</html>

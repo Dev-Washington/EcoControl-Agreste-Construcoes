@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreste Construção - Chat</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="chat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="../js/chat-logs-global.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>Agreste Construção</h2>
+                    <p>Área do Funcionário</p>
+                </div>
+            </div>
+            
+            <nav class="navigation">
+                <h3>NAVEGAÇÃO</h3>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="momentos.html">
+                            <i class="fas fa-clock"></i>
+                            <span>Registro de Momentos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="chat.html">
+                            <i class="fas fa-comments"></i>
+                            <span>Mensagens</span>
+                            <span class="nav-badge" id="navMessagesBadge" style="display: none;">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info-sidebar">
+                    <div class="user-avatar-sidebar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details-sidebar">
+                        <div class="user-name-sidebar" id="sidebarUserName">-</div>
+                        <div class="user-role-sidebar" id="sidebarUserRole">-</div>
+                    </div>
+                </div>
+                <div class="status-indicator-sidebar">
+                    <div class="status-dot online"></div>
+                    <span>Online</span>
+                </div>
+                <button class="btn-logout-sidebar" onclick="employeeChat.logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-info">
+                    <h1><i class="fas fa-comments"></i> Mensagens</h1>
+                    <p>Envie mensagens para suporte e gestão</p>
+                </div>
+            </header>
+            
+            <div class="chat-container">
+                <!-- Lista de Conversas (Sidebar Esquerda) -->
+                <div class="chat-sidebar">
+                    <div class="chat-sidebar-header">
+                        <button class="btn-new-message" onclick="employeeChat.openNewMessageModal()" title="Nova Mensagem">
+                            <i class="fas fa-plus"></i>
+                            <span>Nova Mensagem</span>
+                        </button>
+                        <div class="search-chat">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchChatInput" placeholder="Buscar conversas...">
+                        </div>
+                    </div>
+                    <div class="conversations-list" id="conversationsList">
+                        <!-- Lista de conversas será preenchida aqui -->
+                    </div>
+                </div>
+
+                <!-- Área de Chat (Direita) -->
+                <div class="chat-main">
+                    <div class="chat-empty-state" id="chatEmptyState">
+                        <i class="fas fa-comments"></i>
+                        <h3>Selecione uma conversa</h3>
+                        <p>Escolha uma conversa ou envie uma nova mensagem</p>
+                    </div>
+
+                    <!-- Chat Ativo -->
+                    <div class="chat-active" id="chatActive" style="display: none;">
+                        <!-- Header do Chat -->
+                        <div class="chat-header">
+                            <div class="chat-header-info">
+                                <div class="chat-avatar">
+                                    <i class="fas fa-user-shield"></i>
+                                </div>
+                                <div class="chat-user-details">
+                                    <h3 id="chatUserName">Suporte/Gestor</h3>
+                                    <span id="chatUserRole">Administração</span>
+                                </div>
+                            </div>
+                            <div class="chat-header-actions">
+                                <button class="chat-action-btn" title="Informações">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Área de Mensagens -->
+                        <div class="chat-messages" id="chatMessages">
+                            <!-- Mensagens serão preenchidas aqui -->
+                        </div>
+
+                        <!-- Input de Mensagem -->
+                        <div class="chat-input-container">
+                            <input type="file" id="chatImageInput" accept="image/*" style="display: none;" onchange="employeeChat.handleImageSelect(event)">
+                            <button class="chat-input-btn" title="Anexar Imagem" onclick="document.getElementById('chatImageInput').click()">
+                                <i class="fas fa-image"></i>
+                            </button>
+                            <div class="chat-input-wrapper">
+                                <input type="text" id="chatMessageInput" placeholder="Digite uma mensagem" autocomplete="off">
+                                <div class="image-preview-chat" id="imagePreviewChat" style="display: none;">
+                                    <img id="imagePreviewChatImg" src="" alt="Preview">
+                                    <button type="button" class="btn-remove-image-chat" onclick="employeeChat.removeImagePreview()">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="chat-input-btn chat-send-btn" id="sendMessageBtn" title="Enviar">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Nova Mensagem -->
+    <div class="modal" id="newMessageModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-paper-plane"></i> Nova Mensagem</h2>
+                <span class="close" onclick="employeeChat.closeNewMessageModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="newMessageForm" onsubmit="employeeChat.sendNewMessage(event)">
+                    <div class="form-group">
+                        <label for="newMessageSubject">Assunto *</label>
+                        <input type="text" id="newMessageSubject" class="form-control" placeholder="Ex: Problema com caminhão, Dúvida sobre entrega..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newMessageContent">Mensagem *</label>
+                        <textarea id="newMessageContent" class="form-control" rows="5" placeholder="Descreva sua mensagem aqui..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="newMessagePriority">Prioridade</label>
+                        <select id="newMessagePriority" class="form-control">
+                            <option value="normal">Normal</option>
+                            <option value="alta">Alta</option>
+                            <option value="urgente">Urgente</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="newMessageDelivery">Entrega (Opcional)</label>
+                        <select id="newMessageDelivery" class="form-control">
+                            <option value="">Selecione a entrega...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="newMessageTruck">Caminhão (Opcional)</label>
+                        <select id="newMessageTruck" class="form-control">
+                            <option value="">Selecione o caminhão...</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Enviar Mensagem
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="employeeChat.closeNewMessageModal()">
+                            <i class="fas fa-times"></i> Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/confirm-modal.js"></script>
+    <script src="chat.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreste Construção - Trocar Foto de Perfil</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../perfil/perfil.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>Agreste Construção</h2>
+                    <p>Gestão de Frotas</p>
+                </div>
+            </div>
+            
+            <nav class="navigation">
+                <h3>NAVEGAÇÃO</h3>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../dashboard/dashboard.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../funcionarios/funcionarios.html">
+                            <i class="fas fa-users"></i>
+                            <span>Funcionários</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../caminhoes/caminhoes.html">
+                            <i class="fas fa-truck"></i>
+                            <span>Caminhões</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../entregas/entregas.html">
+                            <i class="fas fa-box"></i>
+                            <span>Entregas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../clientes/clientes.html">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Clientes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../administracao/administracao.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Administração</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <img id="userAvatar" src="https://via.placeholder.com/40" alt="Avatar">
+                    </div>
+                    <div class="user-details">
+                        <div class="user-name" id="userName">Usuário</div>
+                        <div class="user-role" id="userRole">Cargo</div>
+                    </div>
+                </div>
+                <div class="sidebar-actions">
+                    <button class="theme-toggle" id="themeToggle" title="Alternar tema" aria-label="Alternar entre tema claro e escuro">
+                        <i class="fas fa-sun"></i>
+                    </button>
+                    <button class="settings-btn" id="settingsBtn" title="Configurações" aria-label="Abrir configurações">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="header-left">
+                    <h1>Trocar Foto de Perfil</h1>
+                    <p>Atualize sua foto de perfil</p>
+                </div>
+                <div class="header-actions">
+                    <a href="../perfil/perfil.html" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        Voltar ao Perfil
+                    </a>
+                </div>
+            </header>
+            
+            <div class="page-content">
+                <div class="profile-photo-container">
+                    <div class="current-photo-section">
+                        <h3>Foto Atual</h3>
+                        <div class="current-photo">
+                            <img id="currentPhoto" src="https://via.placeholder.com/200" alt="Foto atual">
+                        </div>
+                    </div>
+                    
+                    <div class="upload-section">
+                        <h3>Nova Foto</h3>
+                        <div class="upload-area" id="uploadArea">
+                            <div class="upload-content">
+                                <i class="fas fa-cog"></i>
+                                <p>Clique aqui ou arraste uma imagem</p>
+                                <span>Formatos aceitos: JPG, PNG, GIF (máx. 5MB)</span>
+                            </div>
+                            <input type="file" id="photoInput" accept="image/*" style="display: none;">
+                        </div>
+                        
+                        <div class="preview-section" id="previewSection" style="display: none;">
+                            <h4>Pré-visualização</h4>
+                            <div class="photo-preview">
+                                <img id="photoPreview" src="" alt="Pré-visualização">
+                            </div>
+                        </div>
+                        
+                        <div class="photo-actions">
+                            <button class="btn btn-primary" id="savePhotoBtn" style="display: none;">
+                                <i class="fas fa-save"></i>
+                                Salvar Foto
+                            </button>
+                            <button class="btn btn-secondary" id="cancelBtn" style="display: none;">
+                                <i class="fas fa-times"></i>
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="photo-tips">
+                    <h4>Dicas para uma boa foto:</h4>
+                    <ul>
+                        <li>Use uma foto clara e bem iluminada</li>
+                        <li>Evite fotos muito escuras ou desfocadas</li>
+                        <li>Formato quadrado funciona melhor</li>
+                        <li>Mantenha o rosto centralizado</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="trocar-foto.js"></script>
+</body>
+</html>

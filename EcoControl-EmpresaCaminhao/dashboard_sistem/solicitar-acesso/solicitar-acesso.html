@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreste Construção - Solicitar Acesso</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="solicitar-acesso.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>Agreste Construção</h2>
+                    <p>Gestão de Frotas</p>
+                </div>
+            </div>
+
+            <nav class="navigation">
+                <h3>NAVEGAÇÃO</h3>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../dashboard/dashboard.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../funcionarios/funcionarios.html">
+                            <i class="fas fa-users"></i>
+                            <span>Funcionários</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../caminhoes/caminhoes.html">
+                            <i class="fas fa-truck"></i>
+                            <span>Caminhões</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../entregas/entregas.html">
+                            <i class="fas fa-box"></i>
+                            <span>Entregas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../clientes/clientes.html">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Clientes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item admin-only">
+                        <a href="../administracao/administracao.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Administração</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="header-content">
+                    <h1><i class="fas fa-key"></i> Solicitar Acesso</h1>
+                    <p>Solicite acesso ao sistema Agreste Construção</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="window.history.back()">
+                        <i class="fas fa-arrow-left"></i>
+                        Voltar
+                    </button>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- Access Request Form -->
+                <div class="request-form-container">
+                    <div class="form-header">
+                        <div class="form-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h2>Formulário de Solicitação</h2>
+                        <p>Preencha os dados abaixo para solicitar acesso ao sistema</p>
+                    </div>
+
+                    <form id="accessRequestForm" class="request-form">
+                            <div class="form-section">
+                                <h3><i class="fas fa-user"></i> Informações Pessoais</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="fullName">Nome Completo *</label>
+                                        <input type="text" id="fullName" name="fullName" placeholder="Digite seu nome completo" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email *</label>
+                                        <input type="email" id="email" name="email" placeholder="seu.email@exemplo.com" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="phone">Telefone</label>
+                                        <input type="tel" id="phone" name="phone" placeholder="(00) 00000-0000" maxlength="15" inputmode="numeric">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="birthDate">Data de Nascimento</label>
+                                        <input type="date" id="birthDate" name="birthDate">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h3><i class="fas fa-briefcase"></i> Informações Profissionais</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="desiredRole">Cargo Desejado *</label>
+                                        <select id="desiredRole" name="desiredRole" required>
+                                            <option value="">Selecione o cargo</option>
+                                            <option value="gestor">Gestor</option>
+                                            <option value="atendente">Atendente</option>
+                                            <option value="motorista">Motorista</option>
+                                            <option value="funcionario">Funcionário</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="systemType">Tipo de Sistema *</label>
+                                        <select id="systemType" name="systemType" required>
+                                            <option value="">Selecione o sistema</option>
+                                            <option value="dashboard">Sistema Principal (Dashboard)</option>
+                                            <option value="funcionario">Sistema de Funcionário</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="password">Senha Desejada *</label>
+                                        <input type="password" id="password" name="password" placeholder="Digite uma senha para acesso" required minlength="6">
+                                        <small style="color: var(--text-secondary); font-size: 12px; margin-top: 5px; display: block;">Mínimo de 6 caracteres</small>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="department">Departamento</label>
+                                        <input type="text" id="department" name="department" placeholder="Ex: Operações, Manutenção, etc.">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="reason">Motivo da Solicitação *</label>
+                                    <textarea id="reason" name="reason" placeholder="Explique por que precisa de acesso ao sistema..." required></textarea>
+                                </div>
+                            </div>
+
+                            <div class="important-info">
+                                <h4>Informações Importantes:</h4>
+                                <ul>
+                                    <li>Sua solicitação será analisada pela equipe de administração</li>
+                                    <li>Você receberá uma resposta por email em até 48 horas</li>
+                                    <li>Todos os campos marcados com * são obrigatórios</li>
+                                    <li>Certifique-se de que o email esteja correto para receber a resposta</li>
+                                </ul>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Enviar Solicitação
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="solicitar-acesso.js"></script>
+</body>
+</html>

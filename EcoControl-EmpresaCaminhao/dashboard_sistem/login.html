@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreste Construção - Login</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--accent-blue) 0%, #4a90e2 100%);
+            padding: 20px;
+        }
+
+        .login-card {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 400px;
+            overflow: hidden;
+        }
+
+        .login-header {
+            background: var(--accent-blue);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .login-icon i {
+            font-size: 40px;
+            color: white;
+        }
+
+        .login-header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .login-header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .login-form {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .form-group select:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .login-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            min-width: 100%;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #357ABD;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(74, 144, 226, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--border-color);
+            transform: translateY(-2px);
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .login-footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background-color: var(--accent-red);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .error-message.show {
+            display: flex;
+        }
+
+        .error-message i {
+            font-size: 20px;
+        }
+
+        .success-message {
+            background-color: var(--accent-green);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .success-message.show {
+            display: flex;
+        }
+
+        .success-message i {
+            font-size: 20px;
+        }
+
+        .loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-blue) 0%, #4a90e2 100%);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-overlay.show {
+            display: flex;
+        }
+
+        .loading-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 20px;
+            font-weight: 500;
+            margin-top: 30px;
+            text-align: center;
+            max-width: 300px;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 10px;
+            }
+
+            .login-header {
+                padding: 30px 20px;
+            }
+
+            .login-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-icon">
+                    <i class="fas fa-sign-in-alt"></i>
+                </div>
+                <h1>Agreste Construção</h1>
+                <p>Faça login para acessar o sistema</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="login-form">
+                <div id="errorMessage" class="error-message">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="errorText"></span>
+                </div>
+
+                <div id="successMessage" class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="successText"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" placeholder="seu.email@exemplo.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Senha *</label>
+                    <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+                </div>
+
+                <div class="login-actions">
+                    <button type="submit" class="btn btn-primary" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Entrar
+                    </button>
+
+                    <button type="button" class="btn btn-secondary" id="requestAccessBtn">
+                        <i class="fas fa-user-plus"></i>
+                        Solicitar Acesso
+                    </button>
+                </div>
+
+                <div class="login-footer">
+                    <span>Não tem acesso? Solicite logo acima</span>
+                </div>
+            </form>
+
+            <!-- Access Request Form -->
+            <form id="accessRequestForm" class="login-form" style="display: none;">
+                <div id="requestErrorMessage" class="error-message">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="requestErrorText"></span>
+                </div>
+
+                <div id="requestSuccessMessage" class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="requestSuccessText"></span>
+                </div>
+
+                <div class="form-section">
+                    <h3 style="text-align: center; margin-bottom: 20px; color: var(--text-primary);">
+                        <i class="fas fa-user-plus" style="margin-right: 10px;"></i>
+                        Solicitar Acesso
+                    </h3>
+
+                    <div class="form-group">
+                        <label for="fullName">Nome Completo *</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Digite seu nome completo" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="requestEmail">Email *</label>
+                        <input type="email" id="requestEmail" name="requestEmail" placeholder="seu.email@exemplo.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Telefone</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(00) 00000-0000" maxlength="15" inputmode="numeric">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="requestPassword">Senha Desejada *</label>
+                        <input type="password" id="requestPassword" name="password" placeholder="Digite uma senha para acesso" required minlength="6">
+                        <small style="color: var(--text-secondary); font-size: 12px; margin-top: 5px; display: block;">Mínimo de 6 caracteres</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="desiredRole">Cargo Desejado *</label>
+                        <select id="desiredRole" name="desiredRole" required>
+                            <option value="">Selecione o cargo</option>
+                            <option value="gestor">Gestor</option>
+                            <option value="atendente">Atendente</option>
+                            <option value="motorista">Motorista</option>
+                            <option value="funcionario">Funcionário</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="systemType">Tipo de Sistema *</label>
+                        <select id="systemType" name="systemType" required>
+                            <option value="">Selecione o sistema</option>
+                            <option value="dashboard">Sistema Principal (Dashboard)</option>
+                            <option value="funcionario">Sistema de Funcionário</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reason">Motivo da Solicitação *</label>
+                        <textarea id="reason" name="reason" placeholder="Explique por que precisa de acesso ao sistema..." required style="width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; background-color: var(--bg-tertiary); color: var(--text-primary); font-size: 14px; min-height: 80px; resize: vertical;"></textarea>
+                    </div>
+                </div>
+
+                <div class="important-info" style="background-color: var(--bg-tertiary); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--border-color);">
+                    <h4 style="margin: 0 0 10px 0; color: var(--text-primary); font-size: 14px;">Informações Importantes:</h4>
+                    <ul style="margin: 0; padding-left: 20px; color: var(--text-secondary); font-size: 12px;">
+                        <li>Sua solicitação será analisada pela equipe de administração</li>
+                        <li>Você receberá uma resposta por email em até 48 horas</li>
+                        <li>Todos os campos marcados com * são obrigatórios</li>
+                        <li>Certifique-se de que o email esteja correto para receber a resposta</li>
+                    </ul>
+                </div>
+
+                <div class="login-actions">
+                    <button type="submit" class="btn btn-primary" id="submitRequestBtn">
+                        <i class="fas fa-paper-plane"></i>
+                        Enviar Solicitação
+                    </button>
+
+                    <button type="button" class="btn btn-secondary" id="backToLoginBtn">
+                        <i class="fas fa-arrow-left"></i>
+                        Voltar ao Login
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Verificando credenciais...</div>
+        </div>
+    </div>
+
+    <script src="js/login.js"></script>
+</body>
+</html>

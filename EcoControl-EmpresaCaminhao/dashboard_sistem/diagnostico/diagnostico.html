@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreste Construção - Diagnóstico do Sistema</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../administracao/administracao.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <style>
+        /* Estilos específicos para diagnóstico */
+        .diagnostic-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .diagnostic-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .diagnostic-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5em;
+        }
+        
+        .diagnostic-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .diagnostic-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .diagnostic-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .diagnostic-section h4 {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .status-item {
+            background: var(--bg-tertiary);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-blue);
+        }
+        
+        .status-item.success {
+            border-left-color: #28a745;
+        }
+        
+        .status-item.warning {
+            border-left-color: #ffc107;
+        }
+        
+        .status-item.error {
+            border-left-color: #dc3545;
+        }
+        
+        .status-item h5 {
+            margin: 0 0 10px 0;
+            color: var(--text-primary);
+        }
+        
+        .status-item p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+        
+        .status-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--accent-blue);
+            margin-top: 10px;
+        }
+        
+        .status-value.success {
+            color: #28a745;
+        }
+        
+        .status-value.warning {
+            color: #ffc107;
+        }
+        
+        .status-value.error {
+            color: #dc3545;
+        }
+        
+        .logs-container {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .log-entry {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+        
+        .log-timestamp {
+            color: var(--text-muted);
+            font-size: 0.8em;
+        }
+        
+        .log-level {
+            font-weight: bold;
+            margin: 0 10px;
+        }
+        
+        .log-level.info {
+            color: var(--accent-blue);
+        }
+        
+        .log-level.warning {
+            color: #ffc107;
+        }
+        
+        .log-level.error {
+            color: #dc3545;
+        }
+        
+        .log-message {
+            color: var(--text-primary);
+        }
+        
+        .users-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .user-status-item {
+            background: var(--bg-tertiary);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .user-status-item h6 {
+            margin: 0 0 10px 0;
+            color: var(--text-primary);
+        }
+        
+        .user-status-item .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .status-badge.active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-badge.inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+        
+        @media (max-width: 768px) {
+            .diagnostic-actions {
+                flex-direction: column;
+            }
+            
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .users-status {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Back Button -->
+        <button class="back-button btn btn-secondary" onclick="window.history.back()">
+            <i class="fas fa-arrow-left"></i>
+            Voltar
+        </button>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="diagnostic-container">
+                <div class="diagnostic-header">
+                    <h1><i class="fas fa-stethoscope"></i> Diagnóstico do Sistema</h1>
+                    <p>Ferramentas de diagnóstico e monitoramento do Agreste Construção</p>
+                </div>
+                
+                <div class="diagnostic-actions">
+                    <button class="btn btn-primary" id="runDiagnosticBtn">
+                        <i class="fas fa-play"></i>
+                        Executar Diagnóstico
+                    </button>
+                    <button class="btn btn-secondary" id="clearLogsBtn">
+                        <i class="fas fa-trash"></i>
+                        Limpar Logs
+                    </button>
+                    <button class="btn btn-info" id="exportLogsBtn">
+                        <i class="fas fa-download"></i>
+                        Exportar Logs
+                    </button>
+                    <button class="btn btn-warning" id="refreshBtn">
+                        <i class="fas fa-sync"></i>
+                        Atualizar
+                    </button>
+                </div>
+                
+                <div class="diagnostic-results" id="diagnosticResults">
+                    <div class="diagnostic-section">
+                        <h4><i class="fas fa-database"></i> Status do Armazenamento</h4>
+                        <div class="status-grid" id="storageStatus">
+                            <!-- Status será carregado aqui -->
+                        </div>
+                    </div>
+                    
+                    <div class="diagnostic-section">
+                        <h4><i class="fas fa-users"></i> Usuários Ativos</h4>
+                        <div class="users-status" id="usersStatus">
+                            <!-- Status dos usuários será carregado aqui -->
+                        </div>
+                    </div>
+                    
+                    <div class="diagnostic-section">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Logs do Sistema</h4>
+                        <div class="logs-container" id="systemLogs">
+                            <!-- Logs serão carregados aqui -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="diagnostico.js"></script>
+</body>
+</html>

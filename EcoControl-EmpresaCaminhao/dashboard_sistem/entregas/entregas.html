@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreste Construção - Entregas</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="entregas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>Agreste Construção</h2>
+                    <p>Gestão de Frotas</p>
+                </div>
+            </div>
+
+            <nav class="navigation">
+                <h3>NAVEGAÇÃO</h3>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../dashboard/dashboard.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../funcionarios/funcionarios.html">
+                            <i class="fas fa-users"></i>
+                            <span>Funcionários</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../produtos/produtos.html">
+                            <i class="fas fa-boxes"></i>
+                            <span>Produtos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../caminhoes/caminhoes.html">
+                            <i class="fas fa-truck"></i>
+                            <span>Caminhões</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="../entregas/entregas.html">
+                            <i class="fas fa-box"></i>
+                            <span>Entregas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../rotas/rotas.html">
+                            <i class="fas fa-route"></i>
+                            <span>Rotas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../clientes/clientes.html">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Clientes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../chat/chat.html">
+                            <i class="fas fa-comments"></i>
+                            <span>Chat</span>
+                            <span class="nav-badge" id="navChatBadge" style="display: none;">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item has-submenu admin-only" id="adminNavItem">
+                        <a href="#" onclick="event.preventDefault(); toggleSubmenu('adminNavItem'); return false;">
+                            <i class="fas fa-cog"></i>
+                            <span>Administração</span>
+                        </a>
+                        <ul class="nav-submenu">
+                            <li class="nav-item">
+                                <a href="../administracao/relatorios.html">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>Relatórios</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../administracao/notificacoes.html">
+                                    <i class="fas fa-bell"></i>
+                                    <span>Notificações</span>
+                                    <span class="nav-badge" id="navNotificationsBadge" style="display: none;">0</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../administracao/configuracoes.html">
+                                    <i class="fas fa-sliders-h"></i>
+                                    <span>Configurações</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../administracao/gestao.html">
+                                    <i class="fas fa-users-cog"></i>
+                                    <span>Gestão</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../administracao/chatlogs.html">
+                                    <i class="fas fa-comment-dots"></i>
+                                    <span>Chat Logs</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-info">
+                    <h1>Gerenciamento de Entregas</h1>
+                    <p>Gerencie as entregas de materiais de construção</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="newDeliveryBtn">
+                        <i class="fas fa-plus"></i>
+                        Nova Entrega
+                    </button>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- Card de Status de Entregas (Destacado) -->
+                <div class="status-card-featured">
+                    <div class="status-card-header">
+                        <div class="status-card-title">
+                            <i class="fas fa-box"></i>
+                            <h2>Status das Entregas</h2>
+                        </div>
+                    </div>
+                    <div class="status-card-body">
+                        <div class="status-item">
+                            <div class="status-badge status-total">
+                                <i class="fas fa-boxes"></i>
+                                <span class="status-label">TOTAL</span>
+                            </div>
+                            <div class="status-count" id="statusTotalCount">0</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-badge status-pendente">
+                                <i class="fas fa-clock"></i>
+                                <span class="status-label">PENDENTE</span>
+                            </div>
+                            <div class="status-count" id="statusPendenteCount">0</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-badge status-em-transito">
+                                <i class="fas fa-truck-moving"></i>
+                                <span class="status-label">EM TRÂNSITO</span>
+                            </div>
+                            <div class="status-count" id="statusEmTransitoCount">0</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-badge status-entregue">
+                                <i class="fas fa-check-circle"></i>
+                                <span class="status-label">ENTREGUE</span>
+                            </div>
+                            <div class="status-count" id="statusEntregueCount">0</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-badge status-cancelada">
+                                <i class="fas fa-times-circle"></i>
+                                <span class="status-label">CANCELADA</span>
+                            </div>
+                            <div class="status-count" id="statusCanceladaCount">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search and Filters -->
+                <div class="search-filters">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar por código, cliente ou cidade...">
+                    </div>
+                    <div class="filters-container">
+                        <div class="date-filter-container">
+                            <div class="date-filter-header">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Filtrar por Período</span>
+                            </div>
+                            <div class="date-filter-body">
+                                <div class="date-input-group">
+                                    <label for="dateStart">
+                                        <i class="fas fa-calendar-check"></i>
+                                        <span>Data Inicial</span>
+                                    </label>
+                                    <input type="date" id="dateStart" class="date-input">
+                                </div>
+                                <div class="date-separator">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                                <div class="date-input-group">
+                                    <label for="dateEnd">
+                                        <i class="fas fa-calendar-times"></i>
+                                        <span>Data Final</span>
+                                    </label>
+                                    <input type="date" id="dateEnd" class="date-input">
+                                </div>
+                                <button type="button" class="btn-clear-dates"
+                                    onclick="deliveryManager.clearDateFilters()">
+                                    <i class="fas fa-times"></i>
+                                    <span>Limpar</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="status-filter-container">
+                            <div class="status-filter-header">
+                                <i class="fas fa-filter"></i>
+                                <span>Filtrar por Status</span>
+                            </div>
+                            <div class="status-filter-body">
+                                <button class="status-filter-btn active" data-filter="all">
+                                    <i class="fas fa-list"></i>
+                                    <span>Todas</span>
+                                </button>
+                                <button class="status-filter-btn" data-filter="pendente">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Pendente</span>
+                                </button>
+                                <button class="status-filter-btn" data-filter="em_percurso">
+                                    <i class="fas fa-truck"></i>
+                                    <span>Em Percurso</span>
+                                </button>
+                                <button class="status-filter-btn" data-filter="em_carregamento">
+                                    <i class="fas fa-box"></i>
+                                    <span>Em Carregamento</span>
+                                </button>
+                                <button class="status-filter-btn" data-filter="entregue">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Entregue</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Counter -->
+                <div class="results-counter">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="resultsCount">0</span> entrega(s) encontrada(s)
+                </div>
+
+                <!-- Deliveries Table -->
+                <div class="table-container">
+                    <table class="data-table" id="deliveriesTable">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Cliente</th>
+                                <th>Caminhão</th>
+                                <th>Motorista</th>
+                                <th>Funcionário</th>
+                                <th>Destino</th>
+                                <th>Material</th>
+                                <th>Peso (kg)</th>
+                                <th>Valor Nota</th>
+                                <th>Status</th>
+                                <th>Data Entrega</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="deliveriesTableBody">
+                            <!-- Entregas serão carregadas aqui -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Nova Entrega -->
+    <div class="modal" id="newDeliveryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Nova Entrega</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="newDeliveryForm">
+                <div class="modal-body">
+                    <h3 class="form-section-title">Informações do Cliente</h3>
+                    <div class="form-row">
+                        <div class="form-group" style="grid-column: 1 / 3;">
+                            <label for="deliveryCustomerSearch">Buscar Cliente (ID, Nome ou CPF/CNPJ) *</label>
+                            <div class="customer-search-wrapper">
+                                <input type="text" id="deliveryCustomerSearch" name="deliveryCustomerSearch"
+                                    placeholder="Digite ID, nome ou CPF/CNPJ do cliente..." autocomplete="off">
+                                <div id="deliveryCustomerSearchResults" class="customer-search-results"
+                                    style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryCustomerId">ID do Cliente *</label>
+                            <input type="text" id="deliveryCustomerId" name="deliveryCustomerId"
+                                placeholder="ID do cliente" readonly required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryCustomerName">Nome/Razão Social</label>
+                            <input type="text" id="deliveryCustomerName" name="deliveryCustomerName"
+                                placeholder="Nome completo ou razão social" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryCustomerDocument">CPF/CNPJ</label>
+                            <input type="text" id="deliveryCustomerDocument" name="deliveryCustomerDocument"
+                                placeholder="000.000.000-00 ou 00.000.000/0000-00" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryCustomerEmail">E-mail</label>
+                            <input type="email" id="deliveryCustomerEmail" name="deliveryCustomerEmail"
+                                placeholder="exemplo@email.com" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryCustomerPhone">Telefone</label>
+                            <input type="tel" id="deliveryCustomerPhone" name="deliveryCustomerPhone"
+                                placeholder="(00) 00000-0000" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryCustomerAddressCity">Cidade do Cliente</label>
+                            <input type="text" id="deliveryCustomerAddressCity" name="deliveryCustomerAddressCity"
+                                placeholder="Cidade" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group" style="grid-column: 1 / 3;">
+                            <label for="deliveryCustomerAddress">Endereço Completo</label>
+                            <input type="text" id="deliveryCustomerAddress" name="deliveryCustomerAddress"
+                                placeholder="Endereço completo" readonly>
+                        </div>
+                    </div>
+
+                    <h3 class="form-section-title">Informações da Entrega</h3>
+                    <div class="form-row form-row-three">
+                        <div class="form-group">
+                            <label for="deliveryTruck">Caminhão *</label>
+                            <select id="deliveryTruck" name="deliveryTruck" required>
+                                <option value="">Selecione um caminhão</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryDriver">Motorista *</label>
+                            <select id="deliveryDriver" name="deliveryDriver" required>
+                                <option value="">Selecione um motorista</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryEmployee">Funcionário</label>
+                            <select id="deliveryEmployee" name="deliveryEmployee">
+                                <option value="">Selecione um funcionário</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3 class="form-section-title">Endereço de Destino</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryDestinationZipCode">CEP de Destino</label>
+                            <input type="text" id="deliveryDestinationZipCode" name="deliveryDestinationZipCode"
+                                placeholder="00000-000" maxlength="9">
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryDestinationCity">Cidade de Destino *</label>
+                            <div class="city-search-wrapper">
+                                <input type="text" id="deliveryDestinationCity" name="deliveryDestinationCity"
+                                    placeholder="Digite o nome da cidade..." autocomplete="off" required>
+                                <div id="deliveryDestinationCityResults" class="city-search-results"
+                                    style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryDestinationState">Estado de Destino</label>
+                            <select id="deliveryDestinationState" name="deliveryDestinationState">
+                                <option value="">Selecione o estado</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espírito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryDestinationStreet">Logradouro (Rua/Avenida)</label>
+                            <input type="text" id="deliveryDestinationStreet" name="deliveryDestinationStreet"
+                                placeholder="Rua, Avenida, etc.">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryDestinationNumber">Número</label>
+                            <input type="text" id="deliveryDestinationNumber" name="deliveryDestinationNumber"
+                                placeholder="123">
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryDestinationComplement">Complemento</label>
+                            <input type="text" id="deliveryDestinationComplement" name="deliveryDestinationComplement"
+                                placeholder="Apto, Bloco, etc.">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryDestinationNeighborhood">Bairro</label>
+                            <input type="text" id="deliveryDestinationNeighborhood"
+                                name="deliveryDestinationNeighborhood" placeholder="Bairro">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryScheduledDate">Data Prevista</label>
+                            <input type="date" id="deliveryScheduledDate" name="deliveryScheduledDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryStatus">Status</label>
+                            <select id="deliveryStatus" name="deliveryStatus">
+                                <option value="pendente" selected>Pendente</option>
+                                <option value="em_percurso">Em Percurso</option>
+                                <option value="em_carregamento">Em Carregamento</option>
+                                <option value="entregue">Entregue</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3 class="form-section-title">Informações do Material</h3>
+                    <div class="form-row">
+                        <div class="form-group" style="grid-column: 1 / 3;">
+                            <label for="deliveryCargoType">Tipo de Material (Buscar Produto) *</label>
+                            <div class="customer-search-wrapper">
+                                <input type="text" id="deliveryCargoType" name="deliveryCargoType"
+                                    placeholder="Digite ID ou nome do produto..." autocomplete="off" required>
+                                <input type="hidden" id="deliveryCargoTypeId" name="deliveryCargoTypeId">
+                                <div id="deliveryProductSearchResults" class="customer-search-results"
+                                    style="display: none;"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryCargoWeight">Quantidade / Peso</label>
+                            <input type="text" id="deliveryCargoWeight" name="deliveryCargoWeight" placeholder="0,00">
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryCargoUnit">Unidade</label>
+                            <input type="text" id="deliveryCargoUnit" name="deliveryCargoUnit"
+                                placeholder="un, kg, m3, t...">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="deliveryCargoDescription">Descrição do Material</label>
+                        <textarea id="deliveryCargoDescription" name="deliveryCargoDescription" rows="3"
+                            placeholder="Descrição detalhada do material..."></textarea>
+                    </div>
+
+                    <h3 class="form-section-title">Informações de Pagamento</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryTotalValue">Valor Total (R$) *</label>
+                            <input type="text" id="deliveryTotalValue" name="deliveryTotalValue" placeholder="0,00"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryDiscount">Desconto (R$)</label>
+                            <input type="text" id="deliveryDiscount" name="deliveryDiscount" placeholder="0,00">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryPaymentMethod">Método de Pagamento *</label>
+                            <select id="deliveryPaymentMethod" name="deliveryPaymentMethod" required>
+                                <option value="">Selecione o método</option>
+                                <option value="dinheiro">Dinheiro</option>
+                                <option value="pix">PIX</option>
+                                <option value="cartao_debito">Cartão de Débito</option>
+                                <option value="cartao_credito">Cartão de Crédito</option>
+                                <option value="transferencia">Transferência Bancária</option>
+                                <option value="boleto">Boleto</option>
+                                <option value="cheque">Cheque</option>
+                                <option value="credito_loja">Crédito na Loja</option>
+                                <option value="outros">Outros</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryFinalValue">Valor Final (R$)</label>
+                            <input type="text" id="deliveryFinalValue" name="deliveryFinalValue" placeholder="0,00"
+                                readonly style="background-color: var(--bg-tertiary);">
+                        </div>
+                    </div>
+
+                    <h3 class="form-section-title">Informações Adicionais</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryPriority">Prioridade</label>
+                            <select id="deliveryPriority" name="deliveryPriority">
+                                <option value="normal">Normal</option>
+                                <option value="alta">Alta</option>
+                                <option value="urgente">Urgente</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="deliveryNotes">Observações</label>
+                        <textarea id="deliveryNotes" name="deliveryNotes" rows="3"
+                            placeholder="Observações adicionais..."></textarea>
+                    </div>
+
+                    <div class="form-row" style="margin-top: 30px; margin-bottom: 10px;">
+                        <button type="submit" class="btn btn-success"
+                            style="width: 100%; justify-content: center; padding: 16px; font-size: 16px;">
+                            <i class="fas fa-check-circle"></i> SALVAR / FINALIZAR CADASTRO
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelDeliveryBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check-circle"></i> Finalizar Cadastro
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Entrega -->
+    <div class="modal" id="editDeliveryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Entrega</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="editDeliveryForm">
+                <input type="hidden" id="editDeliveryIndex" name="editDeliveryIndex">
+                <div class="modal-body">
+                    <h3 class="form-section-title">Informações do Cliente</h3>
+                    <div class="form-row">
+                        <div class="form-group" style="grid-column: 1 / 3;">
+                            <label for="editDeliveryCustomerSearch">Buscar Cliente (ID, Nome ou CPF/CNPJ)</label>
+                            <div class="customer-search-wrapper">
+                                <input type="text" id="editDeliveryCustomerSearch" name="editDeliveryCustomerSearch"
+                                    placeholder="Digite ID, nome ou CPF/CNPJ do cliente..." autocomplete="off">
+                                <div id="editDeliveryCustomerSearchResults" class="customer-search-results"
+                                    style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editDeliveryCustomerId">ID do Cliente</label>
+                            <input type="text" id="editDeliveryCustomerId" name="editDeliveryCustomerId"
+                                placeholder="ID do cliente" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDeliveryCustomerName">Nome/Razão Social</label>
+                            <input type="text" id="editDeliveryCustomerName" name="editDeliveryCustomerName"
+                                placeholder="Nome completo ou razão social" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editDeliveryCustomerDocument">CPF/CNPJ</label>
+                            <input type="text" id="editDeliveryCustomerDocument" name="editDeliveryCustomerDocument"
+                                placeholder="000.000.000-00 ou 00.000.000/0000-00" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDeliveryCustomerEmail">E-mail</label>
+                            <input type="email" id="editDeliveryCustomerEmail" name="editDeliveryCustomerEmail"
+                                placeholder="exemplo@email.com" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editDeliveryCustomerPhone">Telefone</label>
+                            <input type="tel" id="editDeliveryCustomerPhone" name="editDeliveryCustomerPhone"
+                                placeholder="(00) 00000-0000" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDeliveryCustomerAddressCity">Cidade do Cliente</label>
+                            <input type="text" id="editDeliveryCustomerAddressCity"
+                                name="editDeliveryCustomerAddressCity" placeholder="Cidade" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group" style="grid-column: 1 / 3;">
+                            <label for="editDeliveryCustomerAddress">Endereço Completo</label>
+                            <input type="text" id="editDeliveryCustomerAddress" name="editDeliveryCustomerAddress"
+                                placeholder="Endereço completo" readonly>
+                        </div>
+                    </div>
+
+                    <h3 class="form-section-title">Informações da Entrega</h3>
+                    <div class="form-row form-row-three">
+                        <div class="form-group">
+                            <label for="editDeliveryTruck">Caminhão</label>
+                            <select id="editDeliveryTruck" name="editDeliveryTruck">
+                                <option value="">Selecione um caminhão</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDeliveryDriver">Motorista</label>
+                            <select id="editDeliveryDriver" name="editDeliveryDriver">
+                                <option value="">Selecione um motorista</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDeliveryEmployee">Funcionário</label>
+                            <select id="editDeliveryEmployee" name="editDeliveryEmployee">
+                                <option value="">Selecione um funcionário</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3 class="form-section-title">Endereço de Destino</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editDeliveryDestinationZipCode">CEP de Destino</label>
+                            <input type="text" id="editDeliveryDestinationZipCode" name="editDeliveryDestinationZipCode"
+                                placeholder="00000-000" maxlength="9">
+                        </div>
+                        <div class="form-group">
+                            <label for="editDeliveryDestinationCity">Cidade de Destino</label>
+                            <div class="city-search-wrapper">
+                                <input type="text" id="editDeliveryDestinationCity" name="editDeliveryDestinationCity"
+                                    placeholder="Digite o nome da cidade..." autocomplete="off">
+                                <div id="editDeliveryDestinationCityResults" class="city-search-results"
+                                    style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editDeliveryDestinationState">Estado de Destino</label>
+                            <select id="editDeliveryDestinationState" name="editDeliveryDestinationState">
+                                <option value="">Selecione o estado</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espírito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDeliveryDestinationStreet">Logradouro (Rua/Avenida)</label>
+                            <input type="text" id="editDeliveryDestinationStreet" name="editDeliveryDestinationStreet"
+                                placeholder="Rua, Avenida, etc.">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editDeliveryDestinationNumber">Número</label>
+                            <input type="text" id="editDeliveryDestinationNumber" name="editDeliveryDestinationNumber"
+                                placeholder="123">
+                        </div>
+                        <div class="form-group">
+                            <label for="editDeliveryDestinationComplement">Complemento</label>
+                            <input type="text" id="editDeliveryDestinationComplement"
+                                name="editDeliveryDestinationComplement" placeholder="Apto, Bloco, etc.">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editDeliveryDestinationNeighborhood">Bairro</label>
+                            <input type="text" id="editDeliveryDestinationNeighborhood"
+                                name="editDeliveryDestinationNeighborhood" placeholder="Bairro">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editDeliveryScheduledDate">Data Prevista</label>
+                            <input type="date" id="editDeliveryScheduledDate" name="editDeliveryScheduledDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="editDeliveryDate">Data de Entrega</label>
+                            <input type="date" id="editDeliveryDate" name="editDeliveryDate">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editDeliveryStatus">Status</label>
+                            <select id="editDeliveryStatus" name="editDeliveryStatus">
+                                <option value="pendente">Pendente</option>
+                                <option value="em_percurso">Em Percurso</option>
+                                <option value="em_carregamento">Em Carregamento</option>
+                                <option value="entregue">Entregue</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3 class="form-section-title">Informações do Material</h3>
+                    <div class="form-row">
+                        <div class="form-group" style="grid-column: 1 / 3;">
+                            <label for="editDeliveryCargoType">Tipo de Material (Buscar Produto)</label>
+                            <div class="customer-search-wrapper">
+                                <input type="text" id="editDeliveryCargoType" name="editDeliveryCargoType"
+                                    placeholder="Digite ID ou nome do produto..." autocomplete="off">
+                                <input type="hidden" id="editDeliveryCargoTypeId" name="editDeliveryCargoTypeId">
+                                <div id="editDeliveryProductSearchResults" class="customer-search-results"
+                                    style="display: none;"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDeliveryCargoWeight">Quantidade / Peso</label>
+                            <input type="text" id="editDeliveryCargoWeight" name="editDeliveryCargoWeight"
+                                placeholder="0,00">
+                        </div>
+                        <div class="form-group">
+                            <label for="editDeliveryCargoUnit">Unidade</label>
+                            <input type="text" id="editDeliveryCargoUnit" name="editDeliveryCargoUnit"
+                                placeholder="un, kg, m3, t...">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editDeliveryCargoDescription">Descrição do Material</label>
+                        <textarea id="editDeliveryCargoDescription" name="editDeliveryCargoDescription" rows="3"
+                            placeholder="Descrição detalhada do material..."></textarea>
+                    </div>
+
+                    <h3 class="form-section-title">Informações de Pagamento</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editDeliveryTotalValue">Valor Total (R$)</label>
+                            <input type="text" id="editDeliveryTotalValue" name="editDeliveryTotalValue"
+                                placeholder="0,00">
+                        </div>
+                        <div class="form-group">
+                            <label for="editDeliveryDiscount">Desconto (R$)</label>
+                            <input type="text" id="editDeliveryDiscount" name="editDeliveryDiscount" placeholder="0,00">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editDeliveryPaymentMethod">Método de Pagamento</label>
+                            <select id="editDeliveryPaymentMethod" name="editDeliveryPaymentMethod">
+                                <option value="">Selecione o método</option>
+                                <option value="dinheiro">Dinheiro</option>
+                                <option value="pix">PIX</option>
+                                <option value="cartao_debito">Cartão de Débito</option>
+                                <option value="cartao_credito">Cartão de Crédito</option>
+                                <option value="transferencia">Transferência Bancária</option>
+                                <option value="boleto">Boleto</option>
+                                <option value="cheque">Cheque</option>
+                                <option value="credito_loja">Crédito na Loja</option>
+                                <option value="outros">Outros</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDeliveryFinalValue">Valor Final (R$)</label>
+                            <input type="text" id="editDeliveryFinalValue" name="editDeliveryFinalValue"
+                                placeholder="0,00" readonly style="background-color: var(--bg-tertiary);">
+                        </div>
+                    </div>
+
+                    <h3 class="form-section-title">Informações Adicionais</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editDeliveryPriority">Prioridade</label>
+                            <select id="editDeliveryPriority" name="editDeliveryPriority">
+                                <option value="normal">Normal</option>
+                                <option value="alta">Alta</option>
+                                <option value="urgente">Urgente</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editDeliveryNotes">Observações</label>
+                        <textarea id="editDeliveryNotes" name="editDeliveryNotes" rows="3"
+                            placeholder="Observações adicionais..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelEditDeliveryBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/notifications-sidebar.js"></script>
+    <script src="../js/chat-badge.js"></script>
+    <script src="../js/cpf-cnpj-formatter.js"></script>
+    <script src="../js/confirm-modal.js"></script>
+    <script src="entregas.js"></script>
+</body>
+
+</html>

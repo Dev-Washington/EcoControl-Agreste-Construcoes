@@ -1,0 +1,707 @@
+/* Estilos para Relatórios Avançados - Layout Corporativo - Tela Cheia */
+
+/* Ajustar main-content para usar toda a altura - Tela Cheia */
+body.administracao-relatorios .app-container {
+    height: 100vh;
+    overflow: hidden;
+}
+
+body.administracao-relatorios .main-content {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - var(--sidebar-width));
+    max-width: calc(100vw - var(--sidebar-width));
+}
+
+body.administracao-relatorios .main-header {
+    flex-shrink: 0;
+    margin-bottom: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+.page-content {
+    padding: 30px;
+    width: 100%;
+    margin: 0;
+    background: #f5f6f8;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0;
+    height: 100%;
+    max-width: 100%;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
+    text-transform: none;
+    letter-spacing: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.section-title::after {
+    display: none;
+}
+
+.section-title i {
+    color: #2c5aa0;
+    font-size: 20px;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+/* KPIs - Estilo Corporativo */
+.kpis-section {
+    margin-bottom: 30px;
+    background: #ffffff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+}
+
+.kpis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.kpi-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #2c5aa0;
+    position: relative;
+}
+
+.kpi-card::before {
+    display: none;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-left-color: #1a4480;
+}
+
+.kpi-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.kpi-title {
+    font-size: 12px;
+    color: #6c757d;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.kpi-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+    background: #2c5aa0;
+    box-shadow: none;
+    transition: background 0.2s ease;
+}
+
+.kpi-card:hover .kpi-icon {
+    transform: none;
+    background: #1a4480;
+}
+
+.kpi-icon.positive {
+    background: #28a745;
+}
+
+.kpi-icon.warning {
+    background: #ffc107;
+}
+
+.kpi-icon.danger {
+    background: #dc3545;
+}
+
+.kpi-icon.info {
+    background: #2c5aa0;
+}
+
+.kpi-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    line-height: 1.2;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.kpi-change {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.kpi-change.positive {
+    color: #28a745;
+}
+
+.kpi-change.negative {
+    color: #dc3545;
+}
+
+/* Filtros - Estilo Corporativo */
+.filters-section {
+    margin-bottom: 30px;
+}
+
+.filters-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 25px 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+    transition: box-shadow 0.2s ease;
+}
+
+.filters-card:hover {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 150px;
+    flex: 1;
+}
+
+.filter-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.filter-input {
+    padding: 10px 14px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #ffffff;
+    color: #1a1a1a;
+    transition: border-color 0.2s ease;
+    font-weight: 400;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.filter-input:hover {
+    border-color: #adb5bd;
+    background: #ffffff;
+}
+
+.filter-input:focus {
+    outline: none;
+    border-color: #2c5aa0;
+    box-shadow: 0 0 0 2px rgba(44, 90, 160, 0.1);
+    background: #ffffff;
+    transform: none;
+}
+
+/* Gráficos - Estilo Corporativo */
+.charts-section {
+    margin-bottom: 30px;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.chart-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+    transition: box-shadow 0.2s ease;
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+}
+
+.chart-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #2c5aa0;
+}
+
+.chart-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.chart-header {
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    flex-shrink: 0;
+}
+
+.chart-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.chart-header h3::before {
+    display: none;
+}
+
+.chart-body {
+    position: relative;
+    flex: 1;
+    min-height: 200px;
+    max-height: 250px;
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-body canvas {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9;
+}
+
+/* Relatórios - Estilo Corporativo */
+.reports-section {
+    margin-bottom: 30px;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #2c5aa0;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: #d0d0d0;
+}
+
+.card-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #e0e0e0;
+    background: #f8f9fa;
+}
+
+.card-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.card-header h3 i {
+    color: #2c5aa0;
+    font-size: 18px;
+}
+
+.card-body {
+    padding: 20px 24px 24px;
+    background: #ffffff;
+}
+
+.card-body p {
+    color: #6c757d;
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+    font-weight: 400;
+}
+
+.report-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.report-actions .btn {
+    flex: 1;
+    min-width: 110px;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    border: 1px solid transparent;
+}
+
+.report-actions .btn:hover {
+    transform: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.report-actions .btn-primary {
+    background: #2c5aa0;
+    border-color: #2c5aa0;
+    color: #ffffff;
+}
+
+.report-actions .btn-primary:hover {
+    background: #1a4480;
+    border-color: #1a4480;
+}
+
+/* Modal Relatório Personalizado - Estilo Corporativo */
+.custom-fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+}
+
+.custom-field-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    background: #ffffff;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+}
+
+.custom-field-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #2c5aa0;
+}
+
+.custom-field-item label {
+    font-size: 13px;
+    color: #1a1a1a;
+    cursor: pointer;
+    margin: 0;
+    font-weight: 400;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #ffffff;
+    color: #1a1a1a;
+    transition: border-color 0.2s ease;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #2c5aa0;
+    box-shadow: 0 0 0 2px rgba(44, 90, 160, 0.1);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+/* Comparativos - Estilo Corporativo */
+.comparative-section {
+    background: #ffffff;
+    border-radius: 4px;
+    padding: 32px 36px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+    border-top: 3px solid #2c5aa0;
+}
+
+.comparative-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.comparative-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.comparative-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.comparative-table th,
+.comparative-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.comparative-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.comparative-table tr:hover {
+    background: #f8f9fa;
+}
+
+.comparative-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Header Actions - Estilo Corporativo */
+.header-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.header-actions .btn {
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid transparent;
+}
+
+.header-actions .btn:hover {
+    transform: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.header-actions .btn-primary {
+    background: #2c5aa0;
+    border-color: #2c5aa0;
+    color: #ffffff;
+}
+
+.header-actions .btn-primary:hover {
+    background: #1a4480;
+    border-color: #1a4480;
+}
+
+/* Main Header - Estilo Corporativo - Tela Cheia */
+body.administracao-relatorios .main-header {
+    background: #ffffff;
+    padding: 20px 30px;
+    border-radius: 0;
+    margin-bottom: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    flex-shrink: 0;
+}
+
+.main-header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.main-header p {
+    font-size: 14px;
+    color: #6c757d;
+    font-weight: 400;
+    margin: 0;
+}
+
+/* Scrollbar customizada para page-content */
+.page-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.page-content::-webkit-scrollbar-track {
+    background: #f5f6f8;
+}
+
+.page-content::-webkit-scrollbar-thumb {
+    background: #ced4da;
+    border-radius: 4px;
+}
+
+.page-content::-webkit-scrollbar-thumb:hover {
+    background: #adb5bd;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .page-content {
+        padding: 20px;
+    }
+    
+    body.administracao-relatorios .main-header {
+        padding: 15px 20px;
+    }
+
+    .kpis-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-row {
+        flex-direction: column;
+    }
+
+    .filter-group {
+        width: 100%;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main-header {
+        padding: 20px;
+    }
+
+    .main-header h1 {
+        font-size: 24px;
+    }
+
+    .header-actions {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .header-actions .btn {
+        flex: 1;
+        min-width: 100%;
+    }
+}
+

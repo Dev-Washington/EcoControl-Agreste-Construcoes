@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreste Construção - Registro de Momentos</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="momentos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>Agreste Construção</h2>
+                    <p>Área do Funcionário</p>
+                </div>
+            </div>
+            
+            <nav class="navigation">
+                <h3>NAVEGAÇÃO</h3>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="momentos.html">
+                            <i class="fas fa-clock"></i>
+                            <span>Registro de Momentos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="chat.html">
+                            <i class="fas fa-comments"></i>
+                            <span>Mensagens</span>
+                            <span class="nav-badge" id="navMessagesBadge" style="display: none;">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info-sidebar">
+                    <div class="user-avatar-sidebar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details-sidebar">
+                        <div class="user-name-sidebar" id="sidebarUserName">-</div>
+                        <div class="user-role-sidebar" id="sidebarUserRole">-</div>
+                    </div>
+                </div>
+                <div class="status-indicator-sidebar">
+                    <div class="status-dot online"></div>
+                    <span>Online</span>
+                </div>
+                <button class="btn-logout-sidebar" onclick="momentsManager.logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-info">
+                    <h1><i class="fas fa-clock"></i> Registro de Momentos</h1>
+                    <p>Registre os momentos importantes das suas entregas</p>
+                </div>
+            </header>
+            
+            <div class="page-content">
+                <!-- Card de Registro -->
+                <div class="dashboard-card moments-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-clock"></i>
+                            <h2>Registrar Momento</h2>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form id="momentsForm" onsubmit="momentsManager.registerMoment(event)">
+                            <div class="form-group">
+                                <label for="momentTruck">Caminhão *</label>
+                                <select id="momentTruck" class="form-control" required>
+                                    <option value="">Selecione o caminhão</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="momentRoute">Rota *</label>
+                                <select id="momentRoute" class="form-control" required>
+                                    <option value="">Selecione a rota</option>
+                                </select>
+                            </div>
+
+                            <div class="moments-actions">
+                                <button type="button" class="btn btn-primary btn-moment" onclick="momentsManager.registerMomentType('saida')">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Saiu para Entrega</span>
+                                    <small>Registrar saída</small>
+                                </button>
+                                
+                                <button type="button" class="btn btn-success btn-moment" onclick="momentsManager.registerMomentType('entrega')">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Entregou</span>
+                                    <small>Registrar entrega</small>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Histórico de Registros -->
+                <div class="dashboard-card moments-history-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-history"></i>
+                            <h2>Histórico de Hoje</h2>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-icon-small" onclick="momentsManager.renderMomentsHistory()" title="Atualizar">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="momentsHistoryList" class="moments-list">
+                            <!-- Histórico será preenchido aqui -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/confirm-modal.js"></script>
+    <script src="momentos.js"></script>
+</body>
+</html>
+

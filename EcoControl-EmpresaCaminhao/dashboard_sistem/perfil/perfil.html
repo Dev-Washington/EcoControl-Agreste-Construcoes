@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreste Construção - Meu Perfil</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="perfil.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>Agreste Construção</h2>
+                    <p>Gestão de Frotas</p>
+                </div>
+            </div>
+            
+            <nav class="navigation">
+                <h3>NAVEGAÇÃO</h3>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../dashboard/dashboard.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../funcionarios/funcionarios.html">
+                            <i class="fas fa-users"></i>
+                            <span>Funcionários</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../caminhoes/caminhoes.html">
+                            <i class="fas fa-truck"></i>
+                            <span>Caminhões</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../entregas/entregas.html">
+                            <i class="fas fa-box"></i>
+                            <span>Entregas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../clientes/clientes.html">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Clientes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item admin-only">
+                        <a href="../administracao/administracao.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Administração</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-info">
+                    <h1><i class="fas fa-user"></i> Meu Perfil</h1>
+                    <p>Gerencie suas informações pessoais e configurações</p>
+                </div>
+            </header>
+            
+            <div class="page-content">
+                <div class="profile-container">
+                    <!-- Profile Header -->
+                    <div class="profile-header">
+                        <div class="profile-avatar-section">
+                            <div class="profile-avatar clickable" id="profileAvatarContainer">
+                                <img src="https://via.placeholder.com/120" alt="Avatar" id="profileAvatar">
+                                <button class="avatar-edit-btn" id="changeAvatarBtn" title="Alterar foto" aria-label="Alterar foto do perfil">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            </div>
+                            <div class="profile-info">
+                                <h2 id="profileName" class="clickable">Nome do Usuário</h2>
+                                <div class="profile-role" id="profileRole">Cargo</div>
+                                <div class="profile-email" id="profileEmail">email@empresa.com</div>
+                            </div>
+                        </div>
+                        <div class="profile-actions">
+                            <button class="btn btn-primary" id="editProfileBtn">
+                                <i class="fas fa-edit"></i>
+                                Editar Perfil
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Profile Tabs -->
+                    <div class="profile-tabs">
+                        <button class="tab-btn active" data-tab="personal">
+                            <i class="fas fa-user"></i>
+                            Informações Pessoais
+                        </button>
+                        <button class="tab-btn" data-tab="security">
+                            <i class="fas fa-shield-alt"></i>
+                            Segurança
+                        </button>
+                        <button class="tab-btn" data-tab="preferences">
+                            <i class="fas fa-cog"></i>
+                            Preferências
+                        </button>
+                    </div>
+                    
+                    <!-- Tab Content -->
+                    <div class="tab-content">
+                        <!-- Personal Information Tab -->
+                        <div class="tab-panel active" id="personalTab">
+                            <div class="panel-section">
+                                <h3><i class="fas fa-user"></i> Informações Pessoais</h3>
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <label>Nome Completo</label>
+                                        <span id="displayName">-</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Email</label>
+                                        <span id="displayEmail">-</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Telefone</label>
+                                        <span id="displayPhone">-</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Cargo</label>
+                                        <span id="displayRole">-</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Empresa</label>
+                                        <span id="displayCompany">-</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Data de Cadastro</label>
+                                        <span id="displayCreatedAt">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="panel-section">
+                                <h3><i class="fas fa-briefcase"></i> Informações Profissionais</h3>
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <label>Status</label>
+                                        <span class="status-badge active" id="displayStatus">Ativo</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Último Acesso</label>
+                                        <span id="displayLastAccess">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Security Tab -->
+                        <div class="tab-panel" id="securityTab">
+                            <div class="panel-section">
+                                <h3><i class="fas fa-key"></i> Alterar Senha</h3>
+                                <form id="changePasswordForm" class="security-form">
+                                    <div class="form-group">
+                                        <label for="currentPassword">Senha Atual *</label>
+                                        <input type="password" id="currentPassword" name="currentPassword" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="newPassword">Nova Senha *</label>
+                                        <input type="password" id="newPassword" name="newPassword" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirmPassword">Confirmar Nova Senha *</label>
+                                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save"></i>
+                                            Alterar Senha
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <div class="panel-section">
+                                <h3><i class="fas fa-envelope"></i> Alterar Email</h3>
+                                <form id="changeEmailForm" class="security-form">
+                                    <div class="form-group">
+                                        <label for="newEmail">Novo Email *</label>
+                                        <input type="email" id="newEmail" name="newEmail" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="emailPassword">Senha Atual *</label>
+                                        <input type="password" id="emailPassword" name="emailPassword" required>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save"></i>
+                                            Solicitar Alteração
+                                        </button>
+                                    </div>
+                                </form>
+                                <div class="info-note">
+                                    <i class="fas fa-info-circle"></i>
+                                    <p>A alteração de email precisa ser aprovada por um administrador ou gestor.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Preferences Tab -->
+                        <div class="tab-panel" id="preferencesTab">
+                            <div class="panel-section">
+                                <h3><i class="fas fa-palette"></i> Aparência</h3>
+                                <div class="preference-group">
+                                    <label>Tema</label>
+                                    <div class="theme-options">
+                                        <button class="theme-btn active" data-theme="dark">
+                                            <i class="fas fa-moon"></i>
+                                            Modo Escuro
+                                        </button>
+                                        <button class="theme-btn" data-theme="light">
+                                            <i class="fas fa-sun"></i>
+                                            Modo Claro
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="panel-section">
+                                <h3><i class="fas fa-bell"></i> Notificações</h3>
+                                <div class="preference-group">
+                                    <div class="preference-item">
+                                        <label>
+                                            <input type="checkbox" id="emailNotifications" checked>
+                                            <span>Notificações por Email</span>
+                                        </label>
+                                        <p>Receber notificações importantes por email</p>
+                                    </div>
+                                    <div class="preference-item">
+                                        <label>
+                                            <input type="checkbox" id="systemNotifications" checked>
+                                            <span>Notificações do Sistema</span>
+                                        </label>
+                                        <p>Receber notificações dentro do sistema</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="panel-section">
+                                <h3><i class="fas fa-language"></i> Idioma e Região</h3>
+                                <div class="preference-group">
+                                    <div class="form-group">
+                                        <label for="language">Idioma</label>
+                                        <select id="language">
+                                            <option value="pt-BR">Português (Brasil)</option>
+                                            <option value="en-US">English (US)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="timezone">Fuso Horário</label>
+                                        <select id="timezone">
+                                            <option value="America/Sao_Paulo">Brasília (GMT-3)</option>
+                                            <option value="America/New_York">Nova York (GMT-5)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="preferences-actions">
+                                <button class="btn btn-primary" id="savePreferencesBtn">
+                                    <i class="fas fa-save"></i>
+                                    Salvar Preferências
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modal Editar Perfil -->
+    <div class="modal" id="editProfileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Perfil</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="editProfileForm">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editName">Nome Completo *</label>
+                            <input type="text" id="editName" name="editName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPhone">Telefone</label>
+                            <input type="tel" id="editPhone" name="editPhone">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editCompany">Empresa</label>
+                        <input type="text" id="editCompany" name="editCompany">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelEditBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal Alterar Avatar -->
+    <div class="modal" id="changeAvatarModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Alterar Foto de Perfil</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="avatar-upload">
+                    <div class="avatar-preview">
+                        <img src="https://via.placeholder.com/150" alt="Preview" id="avatarPreview">
+                    </div>
+                    <div class="upload-options">
+                        <label for="avatarFile" class="file-input-label">
+                            <input type="file" id="avatarFile" accept="image/*" class="hidden-file-input">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-upload"></i>
+                                Escolher Imagem
+                            </button>
+                        </label>
+                        <button class="btn btn-secondary" id="removeAvatarBtn">
+                            <i class="fas fa-trash"></i>
+                            Remover Foto
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelAvatarBtn">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="saveAvatarBtn">Salvar Foto</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/confirm-modal.js"></script>
+    <script src="perfil.js"></script>
+</body>
+</html>

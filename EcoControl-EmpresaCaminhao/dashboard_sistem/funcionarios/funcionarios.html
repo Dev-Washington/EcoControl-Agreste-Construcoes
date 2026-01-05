@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreste Construção - Gerenciamento de Funcionários</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="funcionarios.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>Agreste Construção</h2>
+                    <p>Gestão de Frotas</p>
+                </div>
+            </div>
+
+            <nav class="navigation">
+                <h3>NAVEGAÇÃO</h3>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../dashboard/dashboard.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="../funcionarios/funcionarios.html">
+                            <i class="fas fa-users"></i>
+                            <span>Funcionários</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../produtos/produtos.html">
+                            <i class="fas fa-boxes"></i>
+                            <span>Produtos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../caminhoes/caminhoes.html">
+                            <i class="fas fa-truck"></i>
+                            <span>Caminhões</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../entregas/entregas.html">
+                            <i class="fas fa-box"></i>
+                            <span>Entregas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../rotas/rotas.html">
+                            <i class="fas fa-route"></i>
+                            <span>Rotas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../clientes/clientes.html">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Clientes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../chat/chat.html">
+                            <i class="fas fa-comments"></i>
+                            <span>Chat</span>
+                            <span class="nav-badge" id="navChatBadge" style="display: none;">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item has-submenu admin-only" id="adminNavItem">
+                        <a href="#" onclick="event.preventDefault(); toggleSubmenu('adminNavItem'); return false;">
+                            <i class="fas fa-cog"></i>
+                            <span>Administração</span>
+                        </a>
+                        <ul class="nav-submenu">
+                            <li class="nav-item">
+                                <a href="../administracao/relatorios.html">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>Relatórios</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../administracao/notificacoes.html">
+                                    <i class="fas fa-bell"></i>
+                                    <span>Notificações</span>
+                                    <span class="nav-badge" id="navNotificationsBadge" style="display: none;">0</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../administracao/configuracoes.html">
+                                    <i class="fas fa-sliders-h"></i>
+                                    <span>Configurações</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../administracao/gestao.html">
+                                    <i class="fas fa-users-cog"></i>
+                                    <span>Gestão</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../administracao/chatlogs.html">
+                                    <i class="fas fa-comment-dots"></i>
+                                    <span>Chat Logs</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-info">
+                    <h1>Gerenciamento de Funcionários</h1>
+                    <p>Visualize e edite os dados dos funcionários</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="refreshBtn" type="button"
+                        onclick="if(window.employeeManager) window.employeeManager.refreshData()"
+                        title="Atualizar lista de funcionários">
+                        <i class="fas fa-sync-alt"></i>
+                        Atualizar
+                    </button>
+                    <button class="btn btn-primary" id="newEmployeeBtn" type="button"
+                        onclick="openNewEmployeeModalDirect()">
+                        <i class="fas fa-plus"></i>
+                        Novo Funcionário
+                    </button>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- Card de Status de Funcionários (Destacado) -->
+                <div class="status-card-featured">
+                    <div class="status-card-header">
+                        <div class="status-card-title">
+                            <i class="fas fa-users"></i>
+                            <h2>Status dos Funcionários</h2>
+                        </div>
+                    </div>
+                    <div class="status-card-body">
+                        <div class="status-item">
+                            <div class="status-badge status-total">
+                                <i class="fas fa-users"></i>
+                                <span class="status-label">TOTAL</span>
+                            </div>
+                            <div class="status-count" id="statusTotalCount">0</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-badge status-gestor">
+                                <i class="fas fa-user-tie"></i>
+                                <span class="status-label">GESTOR</span>
+                            </div>
+                            <div class="status-count" id="statusGestorCount">0</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-badge status-funcionario">
+                                <i class="fas fa-user-friends"></i>
+                                <span class="status-label">FUNCIONÁRIO</span>
+                            </div>
+                            <div class="status-count" id="statusFuncionarioCount">0</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-badge status-motorista">
+                                <i class="fas fa-user"></i>
+                                <span class="status-label">MOTORISTA</span>
+                            </div>
+                            <div class="status-count" id="statusMotoristaCount">0</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-badge status-ativo">
+                                <i class="fas fa-check-circle"></i>
+                                <span class="status-label">ATIVO</span>
+                            </div>
+                            <div class="status-count" id="statusAtivoCount">0</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-badge status-inativo">
+                                <i class="fas fa-times-circle"></i>
+                                <span class="status-label">INATIVO</span>
+                            </div>
+                            <div class="status-count" id="statusInativoCount">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search and Filters -->
+                <div class="search-filters">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar por nome, email ou cargo...">
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">Todos</button>
+                        <button class="filter-btn" data-filter="gestor">Gestor</button>
+                        <button class="filter-btn" data-filter="motorista">Motorista</button>
+                        <button class="filter-btn" data-filter="funcionario">Funcionários</button>
+                        <button class="filter-btn" data-filter="active">Ativos</button>
+                        <button class="filter-btn" data-filter="inactive">Inativos</button>
+                    </div>
+                </div>
+
+                <!-- Results Counter -->
+                <div class="results-counter">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="resultsCount">0</span> funcionário(s) encontrado(s)
+                </div>
+
+                <!-- Employees Grid -->
+                <div class="employees-grid" id="employeesGrid">
+                    <!-- Funcionários serão carregados aqui -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Novo Funcionário -->
+    <div class="modal" id="newEmployeeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Novo Funcionário</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="newEmployeeForm">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="employeeName">Nome Completo *</label>
+                            <input type="text" id="employeeName" name="employeeName"
+                                placeholder="Nome completo do funcionário" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="employeeEmail">Email *</label>
+                            <input type="email" id="employeeEmail" name="employeeEmail" placeholder="email@empresa.com"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="employeePhone">Telefone</label>
+                            <input type="tel" id="employeePhone" name="employeePhone" placeholder="(00) 00000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="employeeRole">Cargo *</label>
+                            <select id="employeeRole" name="employeeRole" required>
+                                <option value="">Selecione o cargo</option>
+                                <option value="gestor">Gestor</option>
+                                <option value="atendente">Atendente</option>
+                                <option value="motorista">Motorista</option>
+                                <option value="funcionario">Funcionário</option>
+                                <option value="administrador">Administrador</option>
+                                <option value="desenvolvedor">Desenvolvedor</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="employeeCpf">CPF</label>
+                            <input type="text" id="employeeCpf" name="employeeCpf" placeholder="000.000.000-00">
+                        </div>
+                        <div class="form-group">
+                            <label for="employeeBirthDate">Data de Nascimento</label>
+                            <input type="date" id="employeeBirthDate" name="employeeBirthDate">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="employeeHireDate">Data de Contratação</label>
+                            <input type="date" id="employeeHireDate" name="employeeHireDate">
+                        </div>
+                    </div>
+
+                    <h3 class="form-section-title">Endereço</h3>
+                    <div class="form-row">
+                        <div class="form-group" style="grid-column: 1 / 3;">
+                            <label for="employeeAddressStreet">Logradouro</label>
+                            <input type="text" id="employeeAddressStreet" name="employeeAddressStreet"
+                                placeholder="Rua, Avenida, etc.">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="employeeAddressNumber">Número</label>
+                            <input type="text" id="employeeAddressNumber" name="employeeAddressNumber"
+                                placeholder="123">
+                        </div>
+                        <div class="form-group">
+                            <label for="employeeAddressComplement">Complemento</label>
+                            <input type="text" id="employeeAddressComplement" name="employeeAddressComplement"
+                                placeholder="Apto, Bloco, etc.">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="employeeAddressNeighborhood">Bairro</label>
+                            <input type="text" id="employeeAddressNeighborhood" name="employeeAddressNeighborhood"
+                                placeholder="Bairro">
+                        </div>
+                        <div class="form-group">
+                            <label for="employeeAddressZipCode">CEP</label>
+                            <input type="text" id="employeeAddressZipCode" name="employeeAddressZipCode"
+                                placeholder="00000-000">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="employeeAddressCity">Cidade</label>
+                            <input type="text" id="employeeAddressCity" name="employeeAddressCity" placeholder="Cidade">
+                        </div>
+                        <div class="form-group">
+                            <label for="employeeAddressState">Estado</label>
+                            <select id="employeeAddressState" name="employeeAddressState">
+                                <option value="">Selecione o estado</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espírito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="employeeStatus">Status *</label>
+                        <select id="employeeStatus" name="employeeStatus" required>
+                            <option value="active">Ativo</option>
+                            <option value="inactive">Inativo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Foto de Perfil</label>
+                        <div class="employee-photo-section">
+                            <div class="current-photo">
+                                <img id="newEmployeePhoto"
+                                    src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23ddd%22 width=%22100%22 height=%22100%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2214%22 dy=%2210.5%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3E%3C/tspan%3E%3C/text%3E%3C/svg%3E"
+                                    alt="Foto do funcionário">
+                            </div>
+                            <div class="photo-actions">
+                                <label for="newEmployeePhotoInput" class="btn btn-secondary">
+                                    <i class="fas fa-camera"></i>
+                                    Adicionar Foto
+                                </label>
+                                <input type="file" id="newEmployeePhotoInput" accept="image/*" style="display: none;">
+                                <button type="button" class="btn btn-danger" id="removeNewEmployeePhoto">
+                                    <i class="fas fa-trash"></i>
+                                    Remover
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Horário de Trabalho</label>
+                        <div class="work-schedule-edit">
+                            <div class="schedule-day">
+                                <input type="checkbox" id="workMonday" name="workMonday" value="monday" checked>
+                                <label for="workMonday">Segunda-feira</label>
+                            </div>
+                            <div class="schedule-day">
+                                <input type="checkbox" id="workTuesday" name="workTuesday" value="tuesday" checked>
+                                <label for="workTuesday">Terça-feira</label>
+                            </div>
+                            <div class="schedule-day">
+                                <input type="checkbox" id="workWednesday" name="workWednesday" value="wednesday"
+                                    checked>
+                                <label for="workWednesday">Quarta-feira</label>
+                            </div>
+                            <div class="schedule-day">
+                                <input type="checkbox" id="workThursday" name="workThursday" value="thursday" checked>
+                                <label for="workThursday">Quinta-feira</label>
+                            </div>
+                            <div class="schedule-day">
+                                <input type="checkbox" id="workFriday" name="workFriday" value="friday" checked>
+                                <label for="workFriday">Sexta-feira</label>
+                            </div>
+                            <div class="schedule-day">
+                                <input type="checkbox" id="workSaturday" name="workSaturday" value="saturday">
+                                <label for="workSaturday">Sábado</label>
+                            </div>
+                            <div class="schedule-day">
+                                <input type="checkbox" id="workSunday" name="workSunday" value="sunday">
+                                <label for="workSunday">Domingo</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="employeePassword">Senha Temporária *</label>
+                        <input type="password" id="employeePassword" name="employeePassword"
+                            placeholder="Senha temporária" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelEmployeeBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Funcionário</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Funcionário -->
+    <div class="modal" id="editEmployeeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Funcionário</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="editEmployeeForm">
+                <div class="modal-body">
+                    <input type="hidden" id="editEmployeeIndex" name="editEmployeeIndex">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editEmployeeName">Nome Completo *</label>
+                            <input type="text" id="editEmployeeName" name="editEmployeeName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmployeeEmail">Email *</label>
+                            <input type="email" id="editEmployeeEmail" name="editEmployeeEmail" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editEmployeePhone">Telefone</label>
+                            <input type="tel" id="editEmployeePhone" name="editEmployeePhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmployeeRole">Cargo *</label>
+                            <select id="editEmployeeRole" name="editEmployeeRole" required>
+                                <option value="gestor">Gestor</option>
+                                <option value="atendente">Atendente</option>
+                                <option value="motorista">Motorista</option>
+                                <option value="funcionario">Funcionário</option>
+                                <option value="administrador">Administrador</option>
+                                <option value="desenvolvedor">Desenvolvedor</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editEmployeeCpf">CPF</label>
+                            <input type="text" id="editEmployeeCpf" name="editEmployeeCpf">
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmployeeBirthDate">Data de Nascimento</label>
+                            <input type="date" id="editEmployeeBirthDate" name="editEmployeeBirthDate">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editEmployeeHireDate">Data de Contratação</label>
+                            <input type="date" id="editEmployeeHireDate" name="editEmployeeHireDate">
+                        </div>
+                    </div>
+
+                    <h3 class="form-section-title">Endereço</h3>
+                    <div class="form-row">
+                        <div class="form-group" style="grid-column: 1 / 3;">
+                            <label for="editEmployeeAddressStreet">Logradouro</label>
+                            <input type="text" id="editEmployeeAddressStreet" name="editEmployeeAddressStreet"
+                                placeholder="Rua, Avenida, etc.">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editEmployeeAddressNumber">Número</label>
+                            <input type="text" id="editEmployeeAddressNumber" name="editEmployeeAddressNumber"
+                                placeholder="123">
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmployeeAddressComplement">Complemento</label>
+                            <input type="text" id="editEmployeeAddressComplement" name="editEmployeeAddressComplement"
+                                placeholder="Apto, Bloco, etc.">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editEmployeeAddressNeighborhood">Bairro</label>
+                            <input type="text" id="editEmployeeAddressNeighborhood"
+                                name="editEmployeeAddressNeighborhood" placeholder="Bairro">
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmployeeAddressZipCode">CEP</label>
+                            <input type="text" id="editEmployeeAddressZipCode" name="editEmployeeAddressZipCode"
+                                placeholder="00000-000">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editEmployeeAddressCity">Cidade</label>
+                            <input type="text" id="editEmployeeAddressCity" name="editEmployeeAddressCity"
+                                placeholder="Cidade">
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmployeeAddressState">Estado</label>
+                            <select id="editEmployeeAddressState" name="editEmployeeAddressState">
+                                <option value="">Selecione o estado</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espírito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Perfil e Status</label>
+                        <div class="employee-photo-section">
+                            <div class="current-photo">
+                                <img id="editEmployeePhoto"
+                                    src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23ddd%22 width=%22100%22 height=%22100%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2214%22 dy=%2210.5%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3E%3C/tspan%3E%3C/text%3E%3C/svg%3E"
+                                    alt="Foto do funcionário">
+                            </div>
+                            <div class="photo-actions">
+                                <label for="editEmployeePhotoInput" class="btn btn-secondary">
+                                    <i class="fas fa-cog"></i>
+                                    Alterar Foto
+                                </label>
+
+                                <input type="file" id="editEmployeePhotoInput" accept="image/*" style="display: none;">
+                                <button type="button" class="btn btn-danger" id="removeEmployeePhoto">
+                                    <i class="fas fa-trash"></i>
+                                    Remover
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Horário de Trabalho</label>
+                        <div class="work-schedule-edit">
+                            <div class="schedule-day">
+                                <input type="checkbox" id="editWorkMonday" name="workMonday" value="monday">
+                                <label for="editWorkMonday">Segunda-feira</label>
+                            </div>
+                            <div class="schedule-day">
+                                <input type="checkbox" id="editWorkTuesday" name="workTuesday" value="tuesday">
+                                <label for="editWorkTuesday">Terça-feira</label>
+                            </div>
+                            <div class="schedule-day">
+                                <input type="checkbox" id="editWorkWednesday" name="workWednesday" value="wednesday">
+                                <label for="editWorkWednesday">Quarta-feira</label>
+                            </div>
+                            <div class="schedule-day">
+                                <input type="checkbox" id="editWorkThursday" name="workThursday" value="thursday">
+                                <label for="editWorkThursday">Quinta-feira</label>
+                            </div>
+                            <div class="schedule-day">
+                                <input type="checkbox" id="editWorkFriday" name="workFriday" value="friday">
+                                <label for="editWorkFriday">Sexta-feira</label>
+                            </div>
+                            <div class="schedule-day">
+                                <input type="checkbox" id="editWorkSaturday" name="workSaturday" value="saturday">
+                                <label for="editWorkSaturday">Sábado</label>
+                            </div>
+                            <div class="schedule-day">
+                                <input type="checkbox" id="editWorkSunday" name="workSunday" value="sunday">
+                                <label for="editWorkSunday">Domingo</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editEmployeeStatus">Status</label>
+                        <select id="editEmployeeStatus" name="editEmployeeStatus">
+                            <option value="active">Ativo</option>
+                            <option value="inactive">Inativo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelEditEmployeeBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Visualizar Funcionário -->
+    <div class="modal" id="viewEmployeeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Detalhes do Funcionário</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="employee-details" id="employeeDetails">
+                    <!-- Detalhes serão carregados aqui -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeViewEmployeeBtn">Fechar</button>
+                <button type="button" class="btn btn-primary" id="editFromViewBtn">Editar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Configurações -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Configurações</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="settingsForm">
+                <div class="modal-body">
+                    <div class="settings-section">
+                        <h3>Perfil</h3>
+                        <div class="form-group">
+                            <label for="profileName">Nome</label>
+                            <input type="text" id="profileName" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileEmail">Email</label>
+                            <input type="email" id="profileEmail" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileRole">Cargo</label>
+                            <input type="text" id="profileRole" readonly>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Tema</h3>
+                        <div class="form-group">
+                            <label for="themeSelect">Selecionar Tema</label>
+                            <select id="themeSelect">
+                                <option value="light">Claro</option>
+                                <option value="dark">Escuro</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-danger" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Sair
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/notifications-sidebar.js"></script>
+    <script src="../js/chat-badge.js"></script>
+    <script src="../js/cpf-cnpj-formatter.js"></script>
+    <script src="../js/confirm-modal.js"></script>
+    <script src="funcionarios.js"></script>
+    <script>
+        // Inicializar EmployeeManager quando a página carregar
+        if (!window.employeeManager) {
+            document.addEventListener('DOMContentLoaded', () => {
+                window.employeeManager = new EmployeeManager();
+                console.log('EmployeeManager criado e disponível globalmente');
+            });
+        }
+
+        // Função global para abrir modal de novo funcionário
+        function openNewEmployeeModalDirect() {
+            console.log('Função openNewEmployeeModalDirect chamada');
+            const modal = document.getElementById('newEmployeeModal');
+            if (modal) {
+                modal.style.display = 'block';
+                modal.style.visibility = 'visible';
+                modal.style.opacity = '1';
+                modal.style.zIndex = '2000';
+                console.log('Modal exibido via função direta');
+
+                // Reset form
+                const form = document.getElementById('newEmployeeForm');
+                if (form) {
+                    form.reset();
+                }
+
+                // Reset photo
+                const photoPreview = document.getElementById('newEmployeePhoto');
+                if (photoPreview && window.employeeManager) {
+                    photoPreview.src = window.employeeManager.getPlaceholderImage(100);
+                } else if (photoPreview) {
+                    // Fallback se employeeManager não estiver disponível
+                    photoPreview.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23ddd%22 width=%22100%22 height=%22100%22/%3E%3C/svg%3E';
+                }
+
+                // Reset status
+                const statusSelect = document.getElementById('employeeStatus');
+                if (statusSelect) {
+                    statusSelect.value = 'active';
+                }
+            } else {
+                console.error('Modal não encontrado!');
+                alert('Erro: Modal não encontrado. Recarregue a página.');
+            }
+        }
+    </script>
+</body>
+
+</html>

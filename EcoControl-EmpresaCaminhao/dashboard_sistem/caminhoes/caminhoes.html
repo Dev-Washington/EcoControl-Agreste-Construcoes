@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreste Construção - Gerenciamento de Caminhões</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="caminhoes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>Agreste Construção</h2>
+                    <p>Gestão de Frotas</p>
+                </div>
+            </div>
+            
+            <nav class="navigation">
+                <h3>NAVEGAÇÃO</h3>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../dashboard/dashboard.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../funcionarios/funcionarios.html">
+                            <i class="fas fa-users"></i>
+                            <span>Funcionários</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../produtos/produtos.html">
+                            <i class="fas fa-boxes"></i>
+                            <span>Produtos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="../caminhoes/caminhoes.html">
+                            <i class="fas fa-truck"></i>
+                            <span>Caminhões</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../entregas/entregas.html">
+                            <i class="fas fa-box"></i>
+                            <span>Entregas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../rotas/rotas.html">
+                            <i class="fas fa-route"></i>
+                            <span>Rotas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../clientes/clientes.html">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Clientes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../chat/chat.html">
+                            <i class="fas fa-comments"></i>
+                            <span>Chat</span>
+                            <span class="nav-badge" id="navChatBadge" style="display: none;">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item has-submenu admin-only" id="adminNavItem">
+                        <a href="#" onclick="event.preventDefault(); toggleSubmenu('adminNavItem'); return false;">
+                            <i class="fas fa-cog"></i>
+                            <span>Administração</span>
+                        </a>
+                        <ul class="nav-submenu">
+                            <li class="nav-item">
+                                <a href="../administracao/relatorios.html">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>Relatórios</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../administracao/notificacoes.html">
+                                    <i class="fas fa-bell"></i>
+                                    <span>Notificações</span>
+                                    <span class="nav-badge" id="navNotificationsBadge" style="display: none;">0</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../administracao/configuracoes.html">
+                                    <i class="fas fa-sliders-h"></i>
+                                    <span>Configurações</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../administracao/gestao.html">
+                                    <i class="fas fa-users-cog"></i>
+                                    <span>Gestão</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../administracao/chatlogs.html">
+                                    <i class="fas fa-comment-dots"></i>
+                                    <span>Chat Logs</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-info">
+                    <h1>Gerenciamento de Caminhões</h1>
+                    <p>Gerencie a frota de caminhões e suas operações</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-warning" id="requestMaintenanceBtn">
+                        <i class="fas fa-wrench"></i>
+                        Solicitar Manutenção
+                    </button>
+                    <button class="btn btn-primary" id="newTruckBtn">
+                        <i class="fas fa-plus"></i>
+                        Novo Caminhão
+                    </button>
+                </div>
+            </header>
+            
+            <div class="page-content">
+                <!-- Card de Status de Caminhões (Destacado) -->
+                <div class="status-card-featured">
+                    <div class="status-card-header">
+                        <div class="status-card-title">
+                            <i class="fas fa-truck"></i>
+                            <h2>Status dos Caminhões</h2>
+                        </div>
+                    </div>
+                    <div class="status-card-body">
+                        <div class="status-item">
+                            <div class="status-badge status-disponivel">
+                                <i class="fas fa-check-circle"></i>
+                                <span class="status-label">DISPONÍVEL</span>
+                            </div>
+                            <div class="status-count" id="statusDisponivelCount">0</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-badge status-em-rota">
+                                <i class="fas fa-route"></i>
+                                <span class="status-label">EM ROTA</span>
+                            </div>
+                            <div class="status-count" id="statusEmRotaCount">0</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-badge status-parado">
+                                <i class="fas fa-pause-circle"></i>
+                                <span class="status-label">PARADO</span>
+                            </div>
+                            <div class="status-count" id="statusParadoCount">0</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-badge status-manutencao">
+                                <i class="fas fa-wrench"></i>
+                                <span class="status-label">EM MANUTENÇÃO</span>
+                            </div>
+                            <div class="status-count" id="statusManutencaoCount">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search and Filters -->
+                <div class="search-filters">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar por número, placa ou modelo...">
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">Todos</button>
+                        <button class="filter-btn" data-filter="disponivel">DISPONÍVEL</button>
+                        <button class="filter-btn" data-filter="em_rota">EM ROTA</button>
+                        <button class="filter-btn" data-filter="parado">PARADO</button>
+                        <button class="filter-btn" data-filter="manutencao">EM MANUTENÇÃO</button>
+                    </div>
+                </div>
+                
+                <!-- Results Counter -->
+                <div class="results-counter">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="resultsCount">0</span> caminhão(ões) encontrado(s)
+                </div>
+                
+                <!-- Trucks Grid -->
+                <div class="trucks-grid" id="trucksGrid">
+                    <!-- Caminhões serão carregados aqui -->
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modal Novo Caminhão -->
+    <div class="modal" id="newTruckModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Novo Caminhão</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="newTruckForm">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="truckId">Número de Identificação *</label>
+                            <input type="text" id="truckId" name="truckId" placeholder="Ex: CAM-001" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="truckPlate">Placa *</label>
+                            <input type="text" id="truckPlate" name="truckPlate" placeholder="Ex: ABC-1234" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="truckModel">Modelo *</label>
+                            <input type="text" id="truckModel" name="truckModel" placeholder="Ex: Mercedes Axor" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="truckYear">Ano</label>
+                            <input type="number" id="truckYear" name="truckYear" placeholder="2020" min="1990" max="2024">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="truckCapacity">Capacidade (kg)</label>
+                            <input type="number" id="truckCapacity" name="truckCapacity" placeholder="5000">
+                        </div>
+                        <div class="form-group">
+                            <label for="truckStatus">Status</label>
+                            <select id="truckStatus" name="truckStatus">
+                                <option value="disponivel">DISPONÍVEL</option>
+                                <option value="em_rota">EM ROTA</option>
+                                <option value="parado">PARADO</option>
+                                <option value="manutencao">EM MANUTENÇÃO</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="truckCargoDescription">Descrição do Caminhão</label>
+                        <textarea id="truckCargoDescription" name="truckCargoDescription" rows="2" placeholder="Descreva o caminhão..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="truckImage">Foto do Veículo</label>
+                        <input type="file" id="truckImage" name="truckImage" accept="image/*" onchange="truckManager.handleImageUpload(event, 'new')">
+                        <div class="image-preview-container" id="newTruckImagePreview" style="display: none;">
+                            <img id="newTruckImagePreviewImg" src="" alt="Preview da imagem">
+                            <button type="button" class="btn-remove-image" onclick="truckManager.removeImage('new')">
+                                <i class="fas fa-times"></i>
+                                Remover Imagem
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelTruckBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Caminhão</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal Solicitar Manutenção -->
+    <div class="modal" id="maintenanceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Solicitar Manutenção</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="maintenanceForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="maintenanceTruck">Caminhão *</label>
+                        <select id="maintenanceTruck" name="maintenanceTruck" required>
+                            <option value="">Selecione um caminhão</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="maintenanceType">Tipo de Manutenção *</label>
+                            <select id="maintenanceType" name="maintenanceType" required>
+                                <option value="">Selecione o tipo</option>
+                                <option value="preventiva">Preventiva</option>
+                                <option value="corretiva">Corretiva</option>
+                                <option value="emergencial">Emergencial</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="maintenancePriority">Prioridade *</label>
+                            <select id="maintenancePriority" name="maintenancePriority" required>
+                                <option value="">Selecione a prioridade</option>
+                                <option value="baixa">Baixa</option>
+                                <option value="media">Média</option>
+                                <option value="alta">Alta</option>
+                                <option value="urgente">Urgente</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="maintenanceDescription">Descrição do Problema *</label>
+                        <textarea id="maintenanceDescription" name="maintenanceDescription" placeholder="Descreva o problema ou tipo de manutenção necessária..." required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="maintenanceDate">Data Prevista</label>
+                            <input type="date" id="maintenanceDate" name="maintenanceDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="maintenanceCost">Custo Estimado (R$)</label>
+                            <input type="number" id="maintenanceCost" name="maintenanceCost" placeholder="0.00" step="0.01">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelMaintenanceBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-warning">Solicitar Manutenção</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal Editar Caminhão -->
+    <div class="modal" id="editTruckModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Caminhão</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="editTruckForm">
+                <div class="modal-body">
+                    <input type="hidden" id="editTruckIndex" name="editTruckIndex">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editTruckId">Número de Identificação *</label>
+                            <input type="text" id="editTruckId" name="editTruckId" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editTruckPlate">Placa *</label>
+                            <input type="text" id="editTruckPlate" name="editTruckPlate" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editTruckModel">Modelo *</label>
+                            <input type="text" id="editTruckModel" name="editTruckModel" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editTruckYear">Ano</label>
+                            <input type="number" id="editTruckYear" name="editTruckYear" min="1990" max="2024">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editTruckCapacity">Capacidade (kg)</label>
+                            <input type="number" id="editTruckCapacity" name="editTruckCapacity">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editTruckMileage">Quilometragem</label>
+                            <input type="number" id="editTruckMileage" name="editTruckMileage">
+                        </div>
+                        <div class="form-group">
+                            <label for="editTruckStatus">Status</label>
+                            <select id="editTruckStatus" name="editTruckStatus">
+                                <option value="disponivel">DISPONÍVEL</option>
+                                <option value="em_rota">EM ROTA</option>
+                                <option value="parado">PARADO</option>
+                                <option value="manutencao">EM MANUTENÇÃO</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editTruckCargoDescription">Descrição do Caminhão</label>
+                        <textarea id="editTruckCargoDescription" name="editTruckCargoDescription" rows="2" placeholder="Descreva o caminhão..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editTruckImage">Foto do Veículo</label>
+                        <input type="file" id="editTruckImage" name="editTruckImage" accept="image/*" onchange="truckManager.handleImageUpload(event, 'edit')">
+                        <div class="image-preview-container" id="editTruckImagePreview">
+                            <img id="editTruckImagePreviewImg" src="" alt="Preview da imagem">
+                            <button type="button" class="btn-remove-image" onclick="truckManager.removeImage('edit')">
+                                <i class="fas fa-times"></i>
+                                Remover Imagem
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelEditTruckBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Configurações -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Configurações</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="settingsForm">
+                <div class="modal-body">
+                    <div class="settings-section">
+                        <h3>Perfil</h3>
+                        <div class="form-group">
+                            <label for="profileName">Nome</label>
+                            <input type="text" id="profileName" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileEmail">Email</label>
+                            <input type="email" id="profileEmail" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileRole">Cargo</label>
+                            <input type="text" id="profileRole" readonly>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Tema</h3>
+                        <div class="form-group">
+                            <label for="themeSelect">Selecionar Tema</label>
+                            <select id="themeSelect">
+                                <option value="light">Claro</option>
+                                <option value="dark">Escuro</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-secondary" id="cancelSettingsBtn">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/notifications-sidebar.js"></script>
+    <script src="../js/chat-badge.js"></script>
+    <script src="../js/confirm-modal.js"></script>
+    <script src="caminhoes.js"></script>
+</body>
+</html>

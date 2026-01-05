@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreste Construção - Configurações</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>Agreste Construção</h2>
+                    <p>Gestão de Frotas</p>
+                </div>
+            </div>
+            
+            <nav class="navigation">
+                <h3>NAVEGAÇÃO</h3>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../dashboard/dashboard.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../funcionarios/funcionarios.html">
+                            <i class="fas fa-users"></i>
+                            <span>Funcionários</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../produtos/produtos.html">
+                            <i class="fas fa-boxes"></i>
+                            <span>Produtos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../caminhoes/caminhoes.html">
+                            <i class="fas fa-truck"></i>
+                            <span>Caminhões</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../entregas/entregas.html">
+                            <i class="fas fa-box"></i>
+                            <span>Entregas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../rotas/rotas.html">
+                            <i class="fas fa-route"></i>
+                            <span>Rotas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../clientes/clientes.html">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Clientes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../chat/chat.html">
+                            <i class="fas fa-comments"></i>
+                            <span>Chat</span>
+                            <span class="nav-badge" id="navChatBadge" style="display: none;">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item has-submenu admin-only open" id="adminNavItem">
+                        <a href="#" onclick="event.preventDefault(); toggleSubmenu('adminNavItem'); return false;">
+                            <i class="fas fa-cog"></i>
+                            <span>Administração</span>
+                        </a>
+                        <ul class="nav-submenu">
+                            <li class="nav-item">
+                                <a href="../administracao/relatorios.html">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>Relatórios</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../administracao/notificacoes.html">
+                                    <i class="fas fa-bell"></i>
+                                    <span>Notificações</span>
+                                    <span class="nav-badge" id="navNotificationsBadge" style="display: none;">0</span>
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a href="../administracao/configuracoes.html">
+                                    <i class="fas fa-sliders-h"></i>
+                                    <span>Configurações</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../administracao/gestao.html">
+                                    <i class="fas fa-users-cog"></i>
+                                    <span>Gestão</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../administracao/chatlogs.html">
+                                    <i class="fas fa-comment-dots"></i>
+                                    <span>Chat Logs</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-info">
+                    <h1>Configurações</h1>
+                    <p>Configure as opções do sistema</p>
+                </div>
+            </header>
+            
+            <div class="page-content" style="padding: 20px;">
+                <!-- Configurações da Empresa -->
+                <div class="card" style="margin-bottom: 20px;">
+                    <div class="card-header">
+                        <h3><i class="fas fa-building"></i> Configurações da Empresa</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="companySettingsForm">
+                            <div class="form-group">
+                                <label for="companyName">Nome da Empresa</label>
+                                <input type="text" id="companyName" class="form-control" placeholder="Nome da empresa">
+                            </div>
+                            <div class="form-group">
+                                <label for="companyCnpj">CNPJ</label>
+                                <input type="text" id="companyCnpj" class="form-control" placeholder="00.000.000/0000-00">
+                            </div>
+                            <div class="form-group">
+                                <label for="companyAddress">Endereço</label>
+                                <input type="text" id="companyAddress" class="form-control" placeholder="Endereço completo">
+                            </div>
+                            <div class="form-group">
+                                <label for="companyPhone">Telefone</label>
+                                <input type="text" id="companyPhone" class="form-control" placeholder="(00) 00000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label for="companyEmail">Email</label>
+                                <input type="email" id="companyEmail" class="form-control" placeholder="email@empresa.com">
+                            </div>
+                            <button type="button" class="btn btn-primary" id="saveCompanySettings">
+                                <i class="fas fa-save"></i> Salvar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Notificações -->
+                <div class="card" style="margin-bottom: 20px;">
+                    <div class="card-header">
+                        <h3><i class="fas fa-bell"></i> Notificações</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="notificationsSettingsForm">
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="checkbox" id="notifEmail">
+                                    <span>Notificações por Email</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="checkbox" id="notifDelivery">
+                                    <span>Notificações de Entregas</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="checkbox" id="notifMaintenance">
+                                    <span>Notificações de Manutenção</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="checkbox" id="notifSystem">
+                                    <span>Notificações do Sistema</span>
+                                </label>
+                            </div>
+                            <button type="button" class="btn btn-primary" id="saveNotificationsSettings">
+                                <i class="fas fa-save"></i> Salvar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Segurança -->
+                <div class="card" style="margin-bottom: 20px;">
+                    <div class="card-header">
+                        <h3><i class="fas fa-shield-alt"></i> Segurança</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="securitySettingsForm">
+                            <div class="form-group">
+                                <label for="passwordLength">Tamanho Mínimo da Senha</label>
+                                <input type="number" id="passwordLength" class="form-control" min="6" max="20" value="8">
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="checkbox" id="requireUppercase">
+                                    <span>Exigir Letras Maiúsculas</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="checkbox" id="requireNumbers">
+                                    <span>Exigir Números</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="sessionTimeout">Timeout de Sessão (minutos)</label>
+                                <input type="number" id="sessionTimeout" class="form-control" min="5" max="120" value="30">
+                            </div>
+                            <button type="button" class="btn btn-primary" id="saveSecuritySettings">
+                                <i class="fas fa-save"></i> Salvar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Backup e Restauração -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-database"></i> Backup e Restauração</h3>
+                    </div>
+                    <div class="card-body">
+                        <p id="lastBackupInfo" style="margin-bottom: 15px; color: var(--text-secondary);">Nenhum backup criado ainda</p>
+                        
+                        <h4 style="margin: 20px 0 10px 0; color: var(--text-primary);">Criar Backup</h4>
+                        <div class="backup-actions" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+                            <button type="button" class="btn btn-primary" data-backup-format="print">
+                                <i class="fas fa-print"></i> Imprimir
+                            </button>
+                            <button type="button" class="btn btn-primary" data-backup-format="pdf">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </button>
+                            <button type="button" class="btn btn-primary" data-backup-format="json">
+                                <i class="fas fa-file-code"></i> JSON
+                            </button>
+                            <button type="button" class="btn btn-primary" data-backup-format="backend">
+                                <i class="fas fa-server"></i> Backend
+                            </button>
+                        </div>
+
+                        <h4 style="margin: 20px 0 10px 0; color: var(--text-primary);">Restaurar Backup</h4>
+                        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                            <input type="file" id="restoreFileInput" accept=".json,.txt" style="display: none;">
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('restoreFileInput').click()">
+                                <i class="fas fa-upload"></i> Selecionar Arquivo
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="restoreBackupBtn">
+                                <i class="fas fa-sync"></i> Restaurar do Último Backup
+                            </button>
+                        </div>
+                        <p id="restoreFileInfo" style="font-size: 12px; color: var(--text-secondary); margin-top: 5px;"></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/notifications-sidebar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="configuracoes.js"></script>
+    <style>
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+        .backup-actions .btn {
+            flex: 1;
+            min-width: 120px;
+        }
+    </style>
+</body>
+</html>
+

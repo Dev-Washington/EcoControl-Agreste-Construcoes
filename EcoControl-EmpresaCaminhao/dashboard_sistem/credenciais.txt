@@ -1,0 +1,9 @@
+🔐 CREDENCIAIS DE LOGIN
+
+👑 ADMINISTRAÇÃO
+
+1. Desenvolvedor (Desenvolvedor)
+Email: desenvolvedor@control.com
+Senha: admin123
+Role: Desenvolvedor
+Permissões: Acesso completo ao sistema (dashboard, users, reports, settings, analytics, system, backup,Desenvolvedor, Caminhões, Funcionários, Cidades, Rotas, Administração, Relatórios, Configurações)

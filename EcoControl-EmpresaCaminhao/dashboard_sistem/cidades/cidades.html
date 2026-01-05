@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreste Construção - Gerenciamento de Cidades</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="cidades.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>Agreste Construção</h2>
+                    <p>Gestão de Frotas</p>
+                </div>
+            </div>
+            
+            <nav class="navigation">
+                <h3>NAVEGAÇÃO</h3>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../dashboard/dashboard.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../caminhoes/caminhoes.html">
+                            <i class="fas fa-truck"></i>
+                            <span>Caminhões</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../funcionarios/funcionarios.html">
+                            <i class="fas fa-users"></i>
+                            <span>Funcionários</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="../cidades/cidades.html">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Cidades</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../clientes/clientes.html">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Clientes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../entregas/entregas.html">
+                            <i class="fas fa-box"></i>
+                            <span>Entregas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../chat/chat.html">
+                            <i class="fas fa-comments"></i>
+                            <span>Chat</span>
+                            <span class="nav-badge" id="navChatBadge" style="display: none;">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../administracao/administracao.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Administração</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-info">
+                    <h1>Gerenciamento de Cidades</h1>
+                    <p>Cadastre e gerencie as cidades para as rotas</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="newCityBtn">
+                        <i class="fas fa-plus"></i>
+                        Nova Cidade
+                    </button>
+                </div>
+            </header>
+            
+            <div class="page-content">
+                <!-- Statistics Cards -->
+                <div class="stats-section">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: var(--accent-blue);">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalCities">0</h3>
+                            <p>Total de Cidades</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: var(--accent-green);">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="activeCities">0</h3>
+                            <p>Cidades Ativas</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: var(--text-muted);">
+                            <i class="fas fa-pause-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="inactiveCities">0</h3>
+                            <p>Cidades Inativas</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: var(--accent-orange);">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalStates">0</h3>
+                            <p>Estados Diferentes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters and Search -->
+                <div class="filters-section">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar por nome, estado ou CEP...">
+                    </div>
+                    <div class="filters-group">
+                        <select id="filterStatus" class="filter-select">
+                            <option value="">Todos os Status</option>
+                            <option value="ativa">Ativas</option>
+                            <option value="inativa">Inativas</option>
+                        </select>
+                        <select id="filterState" class="filter-select">
+                            <option value="">Todos os Estados</option>
+                        </select>
+                        <button class="btn btn-secondary" id="clearFiltersBtn">
+                            <i class="fas fa-times"></i>
+                            Limpar Filtros
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Cities Grid -->
+                <div class="cities-grid" id="citiesGrid">
+                    <!-- Cidades serão carregadas aqui -->
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modal Nova Cidade -->
+    <div class="modal" id="newCityModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Nova Cidade</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="newCityForm">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cityName">Nome da Cidade *</label>
+                            <input type="text" id="cityName" name="cityName" placeholder="Ex: São Paulo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cityState">Estado *</label>
+                            <select id="cityState" name="cityState" required>
+                                <option value="">Selecione o estado</option>
+                                <option value="AC">Acre (AC)</option>
+                                <option value="AL">Alagoas (AL)</option>
+                                <option value="AP">Amapá (AP)</option>
+                                <option value="AM">Amazonas (AM)</option>
+                                <option value="BA">Bahia (BA)</option>
+                                <option value="CE">Ceará (CE)</option>
+                                <option value="DF">Distrito Federal (DF)</option>
+                                <option value="ES">Espírito Santo (ES)</option>
+                                <option value="GO">Goiás (GO)</option>
+                                <option value="MA">Maranhão (MA)</option>
+                                <option value="MT">Mato Grosso (MT)</option>
+                                <option value="MS">Mato Grosso do Sul (MS)</option>
+                                <option value="MG">Minas Gerais (MG)</option>
+                                <option value="PA">Pará (PA)</option>
+                                <option value="PB">Paraíba (PB)</option>
+                                <option value="PR">Paraná (PR)</option>
+                                <option value="PE">Pernambuco (PE)</option>
+                                <option value="PI">Piauí (PI)</option>
+                                <option value="RJ">Rio de Janeiro (RJ)</option>
+                                <option value="RN">Rio Grande do Norte (RN)</option>
+                                <option value="RS">Rio Grande do Sul (RS)</option>
+                                <option value="RO">Rondônia (RO)</option>
+                                <option value="RR">Roraima (RR)</option>
+                                <option value="SC">Santa Catarina (SC)</option>
+                                <option value="SP">São Paulo (SP)</option>
+                                <option value="SE">Sergipe (SE)</option>
+                                <option value="TO">Tocantins (TO)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cityCep">CEP *</label>
+                            <input type="text" id="cityCep" name="cityCep" placeholder="00000-000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cityStatus">Status</label>
+                            <select id="cityStatus" name="cityStatus">
+                                <option value="ativa">Ativa</option>
+                                <option value="inativa">Inativa</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cityLatitude">Latitude</label>
+                            <input type="text" id="cityLatitude" name="cityLatitude" placeholder="Ex: -23.5505">
+                        </div>
+                        <div class="form-group">
+                            <label for="cityLongitude">Longitude</label>
+                            <input type="text" id="cityLongitude" name="cityLongitude" placeholder="Ex: -46.6333">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cityPopulation">População</label>
+                            <input type="number" id="cityPopulation" name="cityPopulation" placeholder="Ex: 12000000">
+                        </div>
+                        <div class="form-group">
+                            <label for="cityArea">Área (km²)</label>
+                            <input type="number" id="cityArea" name="cityArea" placeholder="Ex: 1521.11" step="0.01">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cityRegion">Região</label>
+                            <select id="cityRegion" name="cityRegion">
+                                <option value="">Selecione a região</option>
+                                <option value="norte">Norte</option>
+                                <option value="nordeste">Nordeste</option>
+                                <option value="centro-oeste">Centro-Oeste</option>
+                                <option value="sudeste">Sudeste</option>
+                                <option value="sul">Sul</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cityTimezone">Fuso Horário</label>
+                            <select id="cityTimezone" name="cityTimezone">
+                                <option value="UTC-5">UTC-5 (Acre)</option>
+                                <option value="UTC-4">UTC-4 (Amazonas - Oeste)</option>
+                                <option value="UTC-3" selected>UTC-3 (Brasília - Padrão)</option>
+                                <option value="UTC-2">UTC-2 (Fernando de Noronha)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cityDescription">Descrição</label>
+                        <textarea id="cityDescription" name="cityDescription" rows="3" placeholder="Informações adicionais sobre a cidade..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cityNotes">Observações</label>
+                        <textarea id="cityNotes" name="cityNotes" rows="2" placeholder="Observações importantes sobre a cidade..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelCityBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Cidade</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal Editar Cidade -->
+    <div class="modal" id="editCityModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Cidade</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="editCityForm">
+                <div class="modal-body">
+                    <input type="hidden" id="editCityIndex" name="editCityIndex">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editCityName">Nome da Cidade *</label>
+                            <input type="text" id="editCityName" name="editCityName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCityState">Estado *</label>
+                            <select id="editCityState" name="editCityState" required>
+                                <option value="AC">Acre (AC)</option>
+                                <option value="AL">Alagoas (AL)</option>
+                                <option value="AP">Amapá (AP)</option>
+                                <option value="AM">Amazonas (AM)</option>
+                                <option value="BA">Bahia (BA)</option>
+                                <option value="CE">Ceará (CE)</option>
+                                <option value="DF">Distrito Federal (DF)</option>
+                                <option value="ES">Espírito Santo (ES)</option>
+                                <option value="GO">Goiás (GO)</option>
+                                <option value="MA">Maranhão (MA)</option>
+                                <option value="MT">Mato Grosso (MT)</option>
+                                <option value="MS">Mato Grosso do Sul (MS)</option>
+                                <option value="MG">Minas Gerais (MG)</option>
+                                <option value="PA">Pará (PA)</option>
+                                <option value="PB">Paraíba (PB)</option>
+                                <option value="PR">Paraná (PR)</option>
+                                <option value="PE">Pernambuco (PE)</option>
+                                <option value="PI">Piauí (PI)</option>
+                                <option value="RJ">Rio de Janeiro (RJ)</option>
+                                <option value="RN">Rio Grande do Norte (RN)</option>
+                                <option value="RS">Rio Grande do Sul (RS)</option>
+                                <option value="RO">Rondônia (RO)</option>
+                                <option value="RR">Roraima (RR)</option>
+                                <option value="SC">Santa Catarina (SC)</option>
+                                <option value="SP">São Paulo (SP)</option>
+                                <option value="SE">Sergipe (SE)</option>
+                                <option value="TO">Tocantins (TO)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editCityCep">CEP *</label>
+                            <input type="text" id="editCityCep" name="editCityCep" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCityStatus">Status</label>
+                            <select id="editCityStatus" name="editCityStatus">
+                                <option value="ativa">Ativa</option>
+                                <option value="inativa">Inativa</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editCityLatitude">Latitude</label>
+                            <input type="text" id="editCityLatitude" name="editCityLatitude" placeholder="Ex: -23.5505">
+                        </div>
+                        <div class="form-group">
+                            <label for="editCityLongitude">Longitude</label>
+                            <input type="text" id="editCityLongitude" name="editCityLongitude" placeholder="Ex: -46.6333">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editCityPopulation">População</label>
+                            <input type="number" id="editCityPopulation" name="editCityPopulation" placeholder="Ex: 12000000">
+                        </div>
+                        <div class="form-group">
+                            <label for="editCityArea">Área (km²)</label>
+                            <input type="number" id="editCityArea" name="editCityArea" placeholder="Ex: 1521.11" step="0.01">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editCityRegion">Região</label>
+                            <select id="editCityRegion" name="editCityRegion">
+                                <option value="">Selecione a região</option>
+                                <option value="norte">Norte</option>
+                                <option value="nordeste">Nordeste</option>
+                                <option value="centro-oeste">Centro-Oeste</option>
+                                <option value="sudeste">Sudeste</option>
+                                <option value="sul">Sul</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCityTimezone">Fuso Horário</label>
+                            <select id="editCityTimezone" name="editCityTimezone">
+                                <option value="UTC-5">UTC-5 (Acre)</option>
+                                <option value="UTC-4">UTC-4 (Amazonas - Oeste)</option>
+                                <option value="UTC-3">UTC-3 (Brasília - Padrão)</option>
+                                <option value="UTC-2">UTC-2 (Fernando de Noronha)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editCityDescription">Descrição</label>
+                        <textarea id="editCityDescription" name="editCityDescription" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editCityNotes">Observações</label>
+                        <textarea id="editCityNotes" name="editCityNotes" rows="2" placeholder="Observações importantes sobre a cidade..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelEditCityBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal de Configurações -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Configurações</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="settingsForm">
+                <div class="modal-body">
+                    <div class="settings-section">
+                        <h3>Perfil</h3>
+                        <div class="form-group">
+                            <label for="profileName">Nome</label>
+                            <input type="text" id="profileName" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileEmail">Email</label>
+                            <input type="email" id="profileEmail" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileRole">Cargo</label>
+                            <input type="text" id="profileRole" readonly>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Tema</h3>
+                        <div class="form-group">
+                            <label for="themeSelect">Selecionar Tema</label>
+                            <select id="themeSelect">
+                                <option value="light">Claro</option>
+                                <option value="dark">Escuro</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-danger" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Sair
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/confirm-modal.js"></script>
+    <script src="cidades.js"></script>
+</body>
+</html>

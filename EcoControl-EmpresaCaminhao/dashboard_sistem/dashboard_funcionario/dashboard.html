@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreste Construção - Dashboard Funcionário</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="momentos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>Agreste Construção</h2>
+                    <p>Área do Funcionário</p>
+                </div>
+            </div>
+
+            <nav class="navigation">
+                <h3>NAVEGAÇÃO</h3>
+                <ul class="nav-menu">
+                    <li class="nav-item active">
+                        <a href="dashboard.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="momentos.html">
+                            <i class="fas fa-clock"></i>
+                            <span>Registro de Momentos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="chat.html">
+                            <i class="fas fa-comments"></i>
+                            <span>Mensagens</span>
+                            <span class="nav-badge" id="navMessagesBadge" style="display: none;">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info-sidebar">
+                    <div class="user-avatar-sidebar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details-sidebar">
+                        <div class="user-name-sidebar" id="sidebarUserName">-</div>
+                        <div class="user-role-sidebar" id="sidebarUserRole">-</div>
+                    </div>
+                </div>
+                <div class="status-indicator-sidebar">
+                    <div class="status-dot online"></div>
+                    <span>Online</span>
+                </div>
+                <button class="btn-logout-sidebar" onclick="employeeDashboard.logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-info">
+                    <h1>Dashboard</h1>
+                    <p>Área do Funcionário - Visão geral das suas atividades</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-icon-header" id="notificationsBtn"
+                        onclick="employeeDashboard.openNotificationsModal()" title="Notificações">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge" id="notificationsBadge" style="display: none;">0</span>
+                    </button>
+                    <button class="btn btn-icon-header" id="messagesBtn" onclick="employeeDashboard.openMessagesModal()"
+                        title="Mensagens">
+                        <i class="fas fa-comments"></i>
+                        <span class="badge" id="messagesBadge" style="display: none;">0</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- Quick Stats Section -->
+                <div class="quick-stats-section">
+                    <div class="stat-card stat-primary">
+                        <div class="stat-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Entregas Hoje</div>
+                            <div class="stat-value" id="todayDeliveriesCount">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-success">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Entregas Concluídas</div>
+                            <div class="stat-value" id="completedDeliveriesCount">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-warning">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Em Andamento</div>
+                            <div class="stat-value" id="inProgressDeliveriesCount">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-info">
+                        <div class="stat-icon">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">KM Rodados</div>
+                            <div class="stat-value" id="totalMileage">0 km</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Truck Info Card -->
+                    <div class="dashboard-card truck-card" id="truckCard">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-truck"></i>
+                                <h2>Caminhão Atribuído</h2>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-icon-small" onclick="employeeDashboard.updateTruckStatus()"
+                                    title="Atualizar Status">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="no-data" id="noTruck">
+                                <i class="fas fa-truck"></i>
+                                <h3>Nenhum caminhão atribuído</h3>
+                                <p>Você ainda não possui um caminhão atribuído no momento.</p>
+                            </div>
+                            <div class="truck-content" id="truckContent" style="display: none;">
+                                <!-- Conteúdo será preenchido dinamicamente -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Info Card -->
+                    <div class="dashboard-card delivery-card" id="deliveryCard">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-box"></i>
+                                <h2>Entrega</h2>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-icon-small" onclick="employeeDashboard.refreshDelivery()"
+                                    title="Atualizar">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="no-data" id="noDelivery">
+                                <i class="fas fa-box"></i>
+                                <h3>Nenhuma entrega atribuída</h3>
+                                <p>Você ainda não possui uma entrega atribuída no momento.</p>
+                            </div>
+                            <div class="delivery-content" id="deliveryContent" style="display: none;">
+                                <!-- Conteúdo será preenchido dinamicamente -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Route Info Card (if route exists) -->
+                    <div class="dashboard-card route-card" id="routeCard" style="display: none;">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-route"></i>
+                                <h2>Rota Atribuída</h2>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="route-content" id="routeContent">
+                                <!-- Conteúdo será preenchido dinamicamente -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card de Registro de Momentos (Adicionado ao Dashboard) -->
+                    <div class="dashboard-card moments-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-clock"></i>
+                                <h2>Registrar Momento</h2>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form id="momentsForm" onsubmit="momentsManager.registerMoment(event)">
+                                <div class="form-group">
+                                    <label for="momentTruck">Caminhão *</label>
+                                    <select id="momentTruck" class="form-control" required
+                                        style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-tertiary);">
+                                        <option value="">Selecione o caminhão</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="momentRoute">Rota / Entrega *</label>
+                                    <select id="momentRoute" class="form-control" required
+                                        style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-tertiary);">
+                                        <option value="">Selecione a rota ou entrega</option>
+                                    </select>
+                                </div>
+
+                                <div class="moments-actions" style="display: flex; gap: 10px; margin-top: 20px;">
+                                    <button type="button" class="btn btn-primary btn-moment"
+                                        onclick="momentsManager.registerMomentType('saida')"
+                                        style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; gap: 5px;">
+                                        <i class="fas fa-sign-out-alt" style="font-size: 20px;"></i>
+                                        <span style="font-weight: bold;">Saiu para Entrega</span>
+                                        <small style="font-size: 0.8em; opacity: 0.8;">Registrar saída</small>
+                                    </button>
+
+                                    <button type="button" class="btn btn-success btn-moment"
+                                        onclick="momentsManager.registerMomentType('entrega')"
+                                        style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; gap: 5px; background-color: var(--accent-green, #2ed573); color: white; border: none; border-radius: 8px;">
+                                        <i class="fas fa-check-circle" style="font-size: 20px;"></i>
+                                        <span style="font-weight: bold;">Entregou</span>
+                                        <small style="font-size: 0.8em; opacity: 0.8;">Registrar entrega</small>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Detalhes Completos -->
+    <div class="modal" id="detailsModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2><i class="fas fa-info-circle"></i> Detalhes Completos da Entrega</h2>
+                <span class="close"
+                    onclick="document.getElementById('detailsModal').style.display = 'none'">&times;</span>
+            </div>
+            <div class="modal-body" id="fullDetailsContent">
+                <!-- Conteúdo será preenchido dinamicamente -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                    onclick="document.getElementById('detailsModal').style.display = 'none'">
+                    <i class="fas fa-times"></i> Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Notificações -->
+    <div class="modal" id="notificationsModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2><i class="fas fa-bell"></i> Notificações</h2>
+                <span class="close" onclick="employeeDashboard.closeNotificationsModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="notifications-container">
+                    <div class="notifications-list" id="notificationsList">
+                        <!-- Notificações serão carregadas aqui -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Mensagens -->
+    <div class="modal" id="messagesModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2><i class="fas fa-comments"></i> Mensagens para Suporte/Gestor</h2>
+                <span class="close" onclick="employeeDashboard.closeMessagesModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="messages-container">
+                    <div class="messages-list" id="messagesList">
+                        <!-- Mensagens serão carregadas aqui -->
+                    </div>
+                    <div class="message-form">
+                        <h3><i class="fas fa-paper-plane"></i> Enviar Nova Mensagem</h3>
+                        <form id="newMessageForm" onsubmit="employeeDashboard.sendMessage(event)">
+                            <div class="form-group">
+                                <label for="messageSubject">Assunto *</label>
+                                <input type="text" id="messageSubject" class="form-control"
+                                    placeholder="Ex: Problema com caminhão, Dúvida sobre entrega..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="messageContent">Mensagem *</label>
+                                <textarea id="messageContent" class="form-control" rows="5"
+                                    placeholder="Descreva sua mensagem aqui..." required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="messagePriority">Prioridade</label>
+                                <select id="messagePriority" class="form-control">
+                                    <option value="normal">Normal</option>
+                                    <option value="alta">Alta</option>
+                                    <option value="urgente">Urgente</option>
+                                </select>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i> Enviar Mensagem
+                                </button>
+                                <button type="button" class="btn btn-secondary"
+                                    onclick="employeeDashboard.closeMessagesModal()">
+                                    <i class="fas fa-times"></i> Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/confirm-modal.js"></script>
+    <script src="momentos.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

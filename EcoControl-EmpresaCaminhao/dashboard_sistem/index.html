@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreste Construção - Sistema de Gestão de Frotas</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <style>
+        /* Página de redirecionamento */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+        }
+
+        .redirect-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            font-size: 1em;
+        }
+
+        .error-text {
+            color: #ff6b6b !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="redirect-container">
+        <div class="logo" role="img" aria-label="Logo do Agreste Construção">
+            <i class="fas fa-truck" aria-hidden="true"></i>
+        </div>
+        <h1>Agreste Construção</h1>
+        <p>Sistema de Gestão de Frotas</p>
+        <div class="loading" role="status" aria-label="Carregando"></div>
+        <p class="loading-text">Redirecionando para o dashboard...</p>
+    </div>
+
+    <script>
+        // Acesso direto sem login
+        document.addEventListener('DOMContentLoaded', function () {
+            try {
+                // Criar usuário padrão automaticamente
+                const defaultUser = {
+                    id: 1,
+                    name: 'Desenvolvedor',
+                    email: 'desenvolvedor@control.com',
+                    password: 'admin123',
+                    role: 'gestor', // Gestor tem acesso total a todos os sistemas
+                    systemType: 'dashboard',
+                    phone: '(11) 99999-9999',
+                    company: 'Agreste Construção',
+                    status: 'active',
+                    photo: 'img/LOGO1.png',
+                    createdAt: new Date().toISOString()
+                };
+
+                // Salvar usuário na sessão
+                sessionStorage.setItem('currentUser', JSON.stringify(defaultUser));
+
+                // Salvar usuário também no localStorage para sincronização
+                let users = JSON.parse(localStorage.getItem('users') || '[]');
+                const existingUserIndex = users.findIndex(u => u.id === defaultUser.id);
+
+                if (existingUserIndex !== -1) {
+                    // Atualizar usuário existente
+                    users[existingUserIndex] = defaultUser;
+                } else {
+                    // Adicionar novo usuário
+                    users.push(defaultUser);
+                }
+
+                localStorage.setItem('users', JSON.stringify(users));
+
+                // Atualizar texto de carregamento
+                const loadingText = document.querySelector('.loading-text');
+                loadingText.textContent = 'Usuário criado com sucesso! Redirecionando...';
+
+                // Redirecionar automaticamente para o dashboard após 2 segundos
+                setTimeout(() => {
+                    window.location.href = 'dashboard/dashboard.html';
+                }, 2000);
+
+            } catch (error) {
+                console.error('Erro ao inicializar o sistema:', error);
+                const loadingText = document.querySelector('.loading-text');
+                loadingText.textContent = 'Erro ao carregar o sistema. Recarregue a página.';
+                loadingText.classList.add('error-text');
+            }
+        });
+    </script>
+</body>
+
+</html>
